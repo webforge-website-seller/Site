@@ -1,0 +1,331 @@
+<!-- ADD THIS SECTION TO YOUR MAIN LANDING PAGE -->
+<!-- Place this code right after the status tracker section, before the footer -->
+
+<!-- QUICK ORDER SECTION (Shows after order is completed) -->
+<section id="quickOrderSection" class="quick-order-section hidden">
+    <div class="quick-order-container">
+        <div class="quick-order-content">
+            <div class="success-icon">🎉</div>
+            <h2>Website Completed!</h2>
+            <p>Your website is live and ready to use. Would you like to order another website or upgrade your current one?</p>
+            
+            <div class="quick-action-buttons">
+                <button class="quick-order-btn primary" onclick="startNewOrder()">
+                    <span class="btn-icon">➕</span>
+                    Order Another Website
+                </button>
+                <button class="quick-order-btn secondary" onclick="viewDetails()">
+                    <span class="btn-icon">📋</span>
+                    View Order Details
+                </button>
+                <a href="#categories" class="quick-order-btn tertiary" onclick="scrollToSection('categories')">
+                    <span class="btn-icon">🏢</span>
+                    Explore Categories
+                </a>
+            </div>
+
+            <div class="order-summary">
+                <h4>Your Website Summary</h4>
+                <div id="completedOrderInfo" class="order-info">
+                    <!-- Will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ADD THIS STYLE TO YOUR <style> SECTION -->
+<style>
+    /* ===== QUICK ORDER SECTION ===== */
+    .quick-order-section {
+        padding: 100px 2rem;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(6, 182, 212, 0.05) 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .quick-order-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+        z-index: 0;
+    }
+
+    .quick-order-container {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .quick-order-content {
+        background: white;
+        border: 2px solid rgba(16, 185, 129, 0.3);
+        border-radius: 20px;
+        padding: 3rem;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(16, 185, 129, 0.15);
+        animation: slideInUp 0.8s ease-out;
+    }
+
+    .success-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .quick-order-content h2 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--success);
+        margin-bottom: 1rem;
+    }
+
+    .quick-order-content p {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+
+    .quick-action-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .quick-order-btn {
+        padding: 1.2rem 1.5rem;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+    }
+
+    .btn-icon {
+        font-size: 1.8rem;
+    }
+
+    .quick-order-btn.primary {
+        background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+        color: white;
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+    }
+
+    .quick-order-btn.primary:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+    }
+
+    .quick-order-btn.secondary {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-alt) 100%);
+        color: white;
+        box-shadow: 0 10px 25px rgba(6, 182, 212, 0.3);
+    }
+
+    .quick-order-btn.secondary:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(6, 182, 212, 0.4);
+    }
+
+    .quick-order-btn.tertiary {
+        background: rgba(6, 182, 212, 0.1);
+        color: var(--accent);
+        border: 2px solid var(--accent);
+    }
+
+    .quick-order-btn.tertiary:hover {
+        background: var(--accent);
+        color: white;
+        transform: translateY(-5px);
+    }
+
+    .order-summary {
+        background: rgba(248, 250, 252, 0.6);
+        border: 2px solid rgba(6, 182, 212, 0.2);
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: left;
+    }
+
+    .order-summary h4 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .order-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+
+    .info-item {
+        background: white;
+        border-radius: 8px;
+        padding: 1.2rem;
+        border-left: 4px solid var(--success);
+    }
+
+    .info-label {
+        font-size: 0.85rem;
+        color: var(--text-light);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .info-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        word-break: break-word;
+    }
+
+    @media (max-width: 768px) {
+        .quick-order-content {
+            padding: 2rem;
+        }
+
+        .quick-order-content h2 {
+            font-size: 1.8rem;
+        }
+
+        .quick-action-buttons {
+            grid-template-columns: 1fr;
+        }
+
+        .quick-order-btn {
+            padding: 1rem;
+        }
+    }
+</style>
+
+<!-- ADD THIS JAVASCRIPT TO YOUR SCRIPT SECTION (Inside the main module script) -->
+<script>
+    // ===== MONITOR ORDER STATUS FOR COMPLETION =====
+    let completionCheckInterval = null;
+
+    function startMonitoringCompletion() {
+        if (!currentUser) return;
+
+        const orderId = document.getElementById('trackingId').value.trim();
+        if (!orderId) return;
+
+        // Check every 5 seconds if status changed to Completed
+        completionCheckInterval = setInterval(() => {
+            const userOrderRef = ref(database, `users/${currentUser.uid}/orders/${orderId}`);
+            onValue(userOrderRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    
+                    // If order status is Completed, show the completion section
+                    if (data.status === 'Completed') {
+                        showCompletionSection(data, orderId);
+                        clearInterval(completionCheckInterval);
+                    }
+                }
+            });
+        }, 5000);
+    }
+
+    function showCompletionSection(orderData, orderId) {
+        document.getElementById('quickOrderSection').classList.remove('hidden');
+        
+        const infoHTML = `
+            <div class="info-item">
+                <div class="info-label">Order ID</div>
+                <div class="info-value">${orderId.substring(0, 10)}...</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Category</div>
+                <div class="info-value">${orderData.category}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Budget</div>
+                <div class="info-value">$${orderData.budget.toLocaleString()}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Status</div>
+                <div class="info-value" style="color: var(--success);">✓ Completed</div>
+            </div>
+        `;
+        
+        document.getElementById('completedOrderInfo').innerHTML = infoHTML;
+        
+        // Scroll to section
+        document.getElementById('quickOrderSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    window.startNewOrder = function() {
+        // Clear tracking
+        document.getElementById('trackingId').value = '';
+        document.getElementById('statusDisplay').classList.add('hidden');
+        document.getElementById('quickOrderSection').classList.add('hidden');
+        
+        // Scroll to order form
+        document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+        
+        // Clear form for new order
+        document.getElementById('orderForm').reset();
+        document.getElementById('budgetValue').textContent = '$5,000';
+    };
+
+    window.viewDetails = function() {
+        document.getElementById('tracker').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    // Modify the trackOrder function to include monitoring
+    const originalTrackOrder = window.trackOrder;
+    window.trackOrder = function() {
+        originalTrackOrder.call(this);
+        startMonitoringCompletion();
+    };
+</script>
+
+<!-- HTML INTEGRATION GUIDE -->
+
+<!--
+TO INTEGRATE THIS INTO YOUR MAIN LANDING PAGE:
+
+1. In the ORDER TRACKER section (around line ~1070), after the </section> closing tag, 
+   add the "QUICK ORDER SECTION" HTML code above.
+
+2. In the <style> section (around line ~700), add the new CSS styles above 
+   (the /* ===== QUICK ORDER SECTION ===== */ block).
+
+3. Inside your main Firebase script module (type="module"), 
+   add the new JavaScript code to enable completion monitoring.
+
+THE FLOW WILL BE:
+- User tracks order using Order ID
+- System monitors status every 5 seconds
+- When status changes to "Completed", beautiful completion section appears
+- Shows 3 action buttons:
+  • Order Another Website (clears form, scrolls to order section)
+  • View Order Details (scrolls back to tracker)
+  • Explore Categories (shows all categories again)
+- Displays summary of completed website
+
+CUSTOMIZATION OPTIONS:
+- Change check interval from 5000ms to desired value
+- Modify button text/styling in quick-action-buttons
+- Change success color from var(--success) to custom color
+- Adjust animation speeds and effects
+-->
