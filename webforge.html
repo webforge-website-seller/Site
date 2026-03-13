@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebForge - Premium Custom Websites</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #0a0e27;
+            --primary-light: #1a1f3a;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #7c3aed;
+            --accent-pink: #ff006e;
+            --success: #10b981;
+            --text-primary: #ffffff;
+            --text-secondary: #a8b5d1;
+            --card-bg: rgba(26, 31, 58, 0.6);
+            --card-border: rgba(0, 212, 255, 0.1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1629 100%);
+            color: var(--text-primary);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 14, 39, 0.8);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            padding: 1.2rem 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-cyan);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .auth-section {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .btn-login, .btn-logout {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-logout {
+            background: rgba(255, 0, 110, 0.1);
+            color: var(--accent-pink);
+            border: 1px solid var(--accent-pink);
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 0, 110, 0.2);
+        }
+
+        .user-email {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            padding: 100px 2rem;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .highlight {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.7s both;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+            border: 2px solid var(--accent-cyan);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.15);
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        h2 {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* How It Works */
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            position: relative;
+        }
+
+        .timeline-item {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(124, 58, 237, 0.05));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .timeline-item:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.15);
+        }
+
+        .timeline-item:hover::before {
+            opacity: 1;
+        }
+
+        .timeline-number {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .timeline-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .timeline-item p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Categories Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .category-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            group: true;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .category-card:hover::before {
+            opacity: 1;
+        }
+
+        .category-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 212, 255, 0.2);
+        }
+
+        .category-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .category-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .category-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* Form & Modal Styling */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-cyan);
+        }
+
+        .modal-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 600;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .tab-btn.active {
+            color: var(--accent-cyan);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            background: rgba(0, 212, 255, 0.05);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .budget-display {
+            text-align: center;
+            color: var(--accent-cyan);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 1.5rem 0;
+        }
+
+        /* Orders Section */
+        .auth-required {
+            background: var(--card-bg);
+            border: 2px dashed var(--accent-cyan);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .auth-required p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .orders-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .order-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .order-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+        }
+
+        .order-id {
+            font-family: 'Courier New', monospace;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .order-status.status-order-received {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+        }
+
+        .order-status.status-designing {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--accent-purple);
+        }
+
+        .order-status.status-developing {
+            background: rgba(255, 0, 110, 0.1);
+            color: var(--accent-pink);
+        }
+
+        .order-status.status-completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .order-info p {
+            color: var(--text-secondary);
+            margin: 0.8rem 0;
+            font-size: 0.95rem;
+        }
+
+        /* Status Tracker */
+        .tracker-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .tracker-input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tracker-input-group input {
+            flex: 1;
+            padding: 0.9rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .tracker-input-group input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .status-timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .status-step {
+            text-align: center;
+        }
+
+        .step-indicator {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .step-indicator.pending {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+        }
+
+        .step-indicator.active {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: white;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .step-indicator.completed {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .step-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .step-indicator.active ~ .step-label,
+        .step-indicator.completed ~ .step-label {
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95), rgba(26, 31, 58, 0.95));
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            margin-top: 6rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-cyan);
+            transform: translateX(4px);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-icon:hover {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-color: var(--accent-cyan);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .newsletter {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .newsletter input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .newsletter button {
+            padding: 0.8rem 1.2rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .auth-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .auth-message.success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .auth-message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+
+        .auth-message.show {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1.5rem;
+            }
+
+            .hero {
+                padding: 80px 1.5rem;
+                min-height: 70vh;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+
+            section {
+                padding: 60px 1.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .status-timeline {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+
+            .tracker-input-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">✦ WebForge</div>
+            <ul>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#order">Order</a></li>
+                <li><a href="#tracker">Track</a></li>
+            </ul>
+            <div class="auth-section">
+                <button class="btn-login" id="loginBtn" onclick="openLoginModal()">Sign In</button>
+                <div class="user-info hidden" id="userInfo">
+                    <span class="user-email" id="userEmail"></span>
+                    <button class="btn-logout" onclick="logoutUser()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1>Build Your <span class="highlight">Digital Empire</span></h1>
+            <p>Stunning, custom websites tailored to your vision. Choose from premium pre-built packages or go fully custom. We transform ideas into digital masterpieces.</p>
+            <div class="cta-buttons">
+                <button class="btn-primary" onclick="scrollTo('order')">Order Custom Website</button>
+                <a href="mailto:mohitk43131@gmail.com" class="btn-secondary">📧 Email Me Directly</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works">
+        <h2>How It Works</h2>
+        <p class="section-subtitle">Simple, transparent, and lightning-fast. Get your website from concept to launch.</p>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-number">1</div>
+                <h3>Choose Your Path</h3>
+                <p>Select from our industry-specific packages or describe your custom vision. We handle all the technical details.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-number">2</div>
+                <h3>Define Requirements</h3>
+                <p>Set your budget, timeline, and features. Our team gets all the details needed to create your perfect site.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-number">3</div>
+                <h3>We Build & Launch</h3>
+                <p>Our expert developers craft your site with cutting-edge technology. Track progress in real-time.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section id="categories">
+        <h2>Industry Categories</h2>
+        <p class="section-subtitle">Choose from our specialized solutions designed for your industry.</p>
+        <div class="categories-grid">
+            <div class="category-card" onclick="selectCategory('E-Commerce')">
+                <div class="category-icon">🛒</div>
+                <h3>E-Commerce</h3>
+                <p>Scalable online stores with payment integration, inventory management, and conversion optimization.</p>
+            </div>
+            <div class="category-card" onclick="selectCategory('Healthcare')">
+                <div class="category-icon">🏥</div>
+                <h3>Healthcare</h3>
+                <p>Trustworthy clinic sites and tele-health platforms with HIPAA compliance and patient portals.</p>
+            </div>
+            <div class="category-card" onclick="selectCategory('eSports & Gaming')">
+                <div class="category-icon">🎮</div>
+                <h3>eSports & Gaming</h3>
+                <p>High-energy, dark-themed team portals with streaming integration and community features.</p>
+            </div>
+            <div class="category-card" onclick="selectCategory('Business & Corporate')">
+                <div class="category-icon">🏢</div>
+                <h3>Business & Corporate</h3>
+                <p>Professional company profiles with case studies, team bios, and lead generation tools.</p>
+            </div>
+            <div class="category-card" onclick="selectCategory('Portfolio & Creative')">
+                <div class="category-icon">🎨</div>
+                <h3>Portfolio & Creative</h3>
+                <p>Stunning showcases for designers, agencies, and creatives. Fully customizable galleries.</p>
+            </div>
+            <div class="category-card" onclick="selectCategory('SaaS & Technology')">
+                <div class="category-icon">⚡</div>
+                <h3>SaaS & Technology</h3>
+                <p>Modern platforms with API integrations, user dashboards, and subscription management.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section id="order">
+        <h2>Place Your Order</h2>
+        <p class="section-subtitle">Sign in to start your website journey.</p>
+        
+        <div id="authRequired" class="auth-required" style="display: none;">
+            <p>🔐 Please sign in to submit your order</p>
+            <button class="btn-primary" onclick="openLoginModal()">Sign In Now</button>
+        </div>
+
+        <div id="orderForm" style="display: none;">
+            <div class="tracker-container" style="max-width: 600px; margin: 0 auto;">
+                <form onsubmit="submitOrder(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="category" required>
+                            <option value="">Select a category...</option>
+                            <option value="E-Commerce">🛒 E-Commerce</option>
+                            <option value="Healthcare">🏥 Healthcare</option>
+                            <option value="eSports & Gaming">🎮 eSports & Gaming</option>
+                            <option value="Business & Corporate">🏢 Business & Corporate</option>
+                            <option value="Portfolio & Creative">🎨 Portfolio & Creative</option>
+                            <option value="SaaS & Technology">⚡ SaaS & Technology</option>
+                            <option value="Custom">✨ Custom Project</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Project Description</label>
+                        <textarea id="description" placeholder="Tell us about your project..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Budget: <span class="budget-display" id="budgetValue">$5,000</span></label>
+                        <input type="range" id="budget" min="1000" max="50000" value="5000" step="500">
+                    </div>
+                    <div id="formMsg" class="auth-message"></div>
+                    <button type="submit" class="btn-primary" style="width: 100%;">Submit Order</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- My Orders -->
+    <section id="my-orders" style="display: none;">
+        <h2>My Orders</h2>
+        <p class="section-subtitle">Track all your website projects in one place.</p>
+        <div id="noOrders" class="auth-required">
+            <p>📭 No orders yet. Ready to get started?</p>
+            <button class="btn-primary" onclick="scrollTo('order')">Create First Order</button>
+        </div>
+        <div id="ordersContainer" class="orders-container"></div>
+    </section>
+
+    <!-- Order Tracker -->
+    <section id="tracker">
+        <h2>Track Your Order</h2>
+        <p class="section-subtitle">Enter your Order ID to see real-time progress.</p>
+        
+        <div class="tracker-container" style="max-width: 700px; margin: 0 auto;">
+            <div class="tracker-input-group">
+                <input type="text" id="trackingId" placeholder="Paste your Order ID here...">
+                <button class="btn-primary" onclick="trackOrder()">Track</button>
+            </div>
+
+            <div id="statusDisplay" style="display: none;">
+                <div style="background: rgba(0, 212, 255, 0.05); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(0, 212, 255, 0.2); margin-bottom: 2rem; text-align: center;">
+                    <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">Current Status</p>
+                    <p style="font-size: 1.8rem; color: var(--accent-cyan); font-weight: 700; margin-bottom: 0.5rem;" id="displayStatus">—</p>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Order ID: <span id="displayId" style="font-family: monospace; color: var(--accent-cyan);">—</span></p>
+                </div>
+
+                <div class="status-timeline">
+                    <div class="status-step">
+                        <div class="step-indicator pending" id="step0">1</div>
+                        <div class="step-label">Received</div>
+                    </div>
+                    <div class="status-step">
+                        <div class="step-indicator pending" id="step1">2</div>
+                        <div class="step-label">Designing</div>
+                    </div>
+                    <div class="status-step">
+                        <div class="step-indicator pending" id="step2">3</div>
+                        <div class="step-label">Developing</div>
+                    </div>
+                    <div class="status-step">
+                        <div class="step-indicator pending" id="step3">4</div>
+                        <div class="step-label">Completed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="auth-modal" id="loginModal">
+        <div class="modal-content" style="position: relative;">
+            <button class="modal-close" onclick="closeLoginModal()">✕</button>
+            <h2 style="margin-bottom: 1.5rem; font-size: 2rem;">Welcome</h2>
+            
+            <div class="modal-tabs">
+                <button class="tab-btn active" onclick="switchTab('login', event)">Sign In</button>
+                <button class="tab-btn" onclick="switchTab('signup', event)">Sign Up</button>
+            </div>
+
+            <!-- Login Tab -->
+            <div id="loginTab" class="tab-content active">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <div id="loginMsg" class="auth-message"></div>
+                    <button type="submit" class="btn-primary" style="width: 100%;">Sign In</button>
+                </form>
+            </div>
+
+            <!-- Signup Tab -->
+            <div id="signupTab" class="tab-content" style="display: none;">
+                <form onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="signupEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signupPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="signupConfirm" required>
+                    </div>
+                    <div id="signupMsg" class="auth-message"></div>
+                    <button type="submit" class="btn-primary" style="width: 100%;">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>✦ WebForge</h4>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Premium custom websites designed to elevate your digital presence.</p>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">© 2024 WebForge. All rights reserved.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#order">Order Now</a></li>
+                    <li><a href="#tracker">Track Order</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:mohitk43131@gmail.com">📧 mohitk43131@gmail.com</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <div class="social-icon">𝕏</div>
+                    <div class="social-icon">📘</div>
+                    <div class="social-icon">💼</div>
+                    <div class="social-icon">🎨</div>
+                </div>
+                <h4 style="margin-top: 1.8rem; margin-bottom: 1rem;">Newsletter</h4>
+                <div class="newsletter">
+                    <input type="email" placeholder="Your email">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Crafted with ❤️ for dreamers and creators | Premium Web Development Solutions</p>
+        </div>
+    </footer>
+
+    <!-- Firebase Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        import { getDatabase, ref, push, onValue, update } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhFr5Iyf7ta7kYAsFyvh6GKhv3fVWkp9E",
+            authDomain: "chat-bot-f4f63.firebaseapp.com",
+            databaseURL: "https://chat-bot-f4f63-default-rtdb.firebaseio.com",
+            projectId: "chat-bot-f4f63",
+            storageBucket: "chat-bot-f4f63.firebasestorage.app",
+            messagingSenderId: "1022141991241",
+            appId: "1:1022141991241:web:c5ada82b21e5227d01f298"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+        let currentUser = null;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('loginBtn').classList.add('hidden');
+                document.getElementById('userInfo').classList.remove('hidden');
+                document.getElementById('userEmail').textContent = user.email;
+                document.getElementById('authRequired').style.display = 'none';
+                document.getElementById('orderForm').style.display = 'block';
+                document.getElementById('my-orders').style.display = 'block';
+                loadOrders();
+            } else {
+                currentUser = null;
+                document.getElementById('loginBtn').classList.remove('hidden');
+                document.getElementById('userInfo').classList.add('hidden');
+                document.getElementById('authRequired').style.display = 'block';
+                document.getElementById('orderForm').style.display = 'none';
+                document.getElementById('my-orders').style.display = 'none';
+            }
+        });
+
+        window.openLoginModal = () => document.getElementById('loginModal').classList.add('active');
+        window.closeLoginModal = () => document.getElementById('loginModal').classList.remove('active');
+        
+        window.switchTab = (tab, e) => {
+            e.preventDefault();
+            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab + 'Tab').style.display = 'block';
+            e.target.classList.add('active');
+        };
+
+        window.handleLogin = async (e) => {
+            e.preventDefault();
+            try {
+                await signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
+                closeLoginModal();
+            } catch (err) {
+                showMsg('loginMsg', err.message, 'error');
+            }
+        };
+
+        window.handleSignup = async (e) => {
+            e.preventDefault();
+            const pwd = document.getElementById('signupPassword').value;
+            const conf = document.getElementById('signupConfirm').value;
+            if (pwd !== conf) {
+                showMsg('signupMsg', 'Passwords do not match', 'error');
+                return;
+            }
+            try {
+                await createUserWithEmailAndPassword(auth, document.getElementById('signupEmail').value, pwd);
+                showMsg('signupMsg', '✓ Account created! Signing you in...', 'success');
+                setTimeout(() => closeLoginModal(), 1500);
+            } catch (err) {
+                showMsg('signupMsg', err.message, 'error');
+            }
+        };
+
+        window.logoutUser = () => signOut(auth);
+
+        function showMsg(id, msg, type) {
+            const el = document.getElementById(id);
+            el.textContent = msg;
+            el.className = `auth-message ${type} show`;
+            setTimeout(() => el.classList.remove('show'), 3000);
+        }
+
+        document.getElementById('budget').addEventListener('input', (e) => {
+            document.getElementById('budgetValue').textContent = '$' + parseInt(e.target.value).toLocaleString();
+        });
+
+        window.submitOrder = async (e) => {
+            e.preventDefault();
+            if (!currentUser) {
+                showMsg('formMsg', 'Please sign in', 'error');
+                return;
+            }
+
+            const data = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                category: document.getElementById('category').value,
+                description: document.getElementById('description').value,
+                budget: parseInt(document.getElementById('budget').value),
+                submittedAt: new Date().toISOString(),
+                status: 'Order Received'
+            };
+
+            try {
+                const newRef = await push(ref(db, `users/${currentUser.uid}/orders`), data);
+                await update(newRef, { orderId: newRef.key });
+                showMsg('formMsg', `✓ Order submitted! ID: ${newRef.key}`, 'success');
+                document.getElementById('orderForm').reset();
+                document.getElementById('budgetValue').textContent = '$5,000';
+            } catch (err) {
+                showMsg('formMsg', 'Error submitting order', 'error');
+            }
+        };
+
+        window.selectCategory = (cat) => {
+            document.getElementById('category').value = cat;
+            scrollTo('order');
+        };
+
+        window.scrollTo = (id) => {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        };
+
+        function loadOrders() {
+            if (!currentUser) return;
+            onValue(ref(db, `users/${currentUser.uid}/orders`), (snap) => {
+                const container = document.getElementById('ordersContainer');
+                const noOrders = document.getElementById('noOrders');
+                if (snap.exists()) {
+                    container.innerHTML = Object.keys(snap.val()).map(id => {
+                        const order = snap.val()[id];
+                        const progress = { 'Order Received': 25, 'Designing': 50, 'Developing': 75, 'Completed': 100 }[order.status] || 0;
+                        return `
+                            <div class="order-card">
+                                <div class="order-id">${id.substring(0, 12)}...</div>
+                                <span class="order-status status-${order.status.toLowerCase().replace(/\s+/g, '-')}">${order.status}</span>
+                                <div class="order-info">
+                                    <p><strong>Category:</strong> ${order.category}</p>
+                                    <p><strong>Budget:</strong> $${order.budget.toLocaleString()}</p>
+                                    <p><strong>Progress:</strong> ${progress}%</p>
+                                    <p><strong>Submitted:</strong> ${new Date(order.submittedAt).toLocaleDateString()}</p>
+                                </div>
+                                <button class="btn-primary" style="width: 100%; margin-top: 1rem;" onclick="trackById('${id}')">Track Order</button>
+                            </div>
+                        `;
+                    }).join('');
+                    noOrders.style.display = 'none';
+                } else {
+                    container.innerHTML = '';
+                    noOrders.style.display = 'block';
+                }
+            });
+        }
+
+        window.trackOrder = () => {
+            const id = document.getElementById('trackingId').value.trim();
+            if (!id || !currentUser) {
+                alert('Enter Order ID and sign in');
+                return;
+            }
+            onValue(ref(db, `users/${currentUser.uid}/orders/${id}`), (snap) => {
+                if (snap.exists()) {
+                    showStatus(snap.val());
+                } else {
+                    alert('Order not found');
+                }
+            });
+        };
+
+        window.trackById = (id) => {
+            document.getElementById('trackingId').value = id;
+            document.getElementById('tracker').scrollIntoView({ behavior: 'smooth' });
+            trackOrder();
+        };
+
+        function showStatus(order) {
+            const steps = { 'Order Received': 0, 'Designing': 1, 'Developing': 2, 'Completed': 3 };
+            const current = steps[order.status] || 0;
+
+            document.getElementById('statusDisplay').style.display = 'block';
+            document.getElementById('displayId').textContent = order.orderId;
+            document.getElementById('displayStatus').textContent = order.status;
+
+            for (let i = 0; i < 4; i++) {
+                const step = document.getElementById(`step${i}`);
+                step.classList.remove('completed', 'active', 'pending');
+                if (i < current) step.classList.add('completed');
+                else if (i === current) step.classList.add('active');
+                else step.classList.add('pending');
+            }
+        }
+    </script>
+</body>
+</html>
