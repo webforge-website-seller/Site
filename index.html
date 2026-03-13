@@ -1299,7 +1299,7 @@
             const payBtn = document.getElementById('payBtn');
             const amount = window.currentPaymentAmount || parseInt(document.getElementById('totalAmount').textContent.replace('$', '').replace(',', ''));
             
-            if (!ZEROUPI_API_KEY || ZEROUPI_API_KEY === 'YOUR_ZEROUPI_API_KEY') {
+            if (!ZEROUPI_API_KEY || ZEROUPI_API_KEY === 'zpk_live_b460b723eb5598e46ed7c7395b2d794a77e9db54026c6327') {
                 alert('⚠️ Zeroupi API Key not configured. Using demo mode.\n\nTo use live payments:\n1. Add your Zeroupi API Key in the code\n2. Update: ZEROUPI_API_KEY = "your_key"');
                 simulateDemoPayment();
                 return;
@@ -1317,7 +1317,7 @@
                     },
                     body: JSON.stringify({
                         amount: amount,
-                        currency: 'USD',
+                        currency: 'INR',
                         orderId: window.currentPaymentOrderId,
                         description: `WebForge Website Order - ${window.currentPaymentOrderId}`,
                         metadata: {
