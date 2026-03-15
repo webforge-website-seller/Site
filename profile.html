@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codivra - Account & Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary-dark: #0a0e27; --primary-light: #1a1f3a;
+            --accent-cyan: #00d4ff; --accent-purple: #7c3aed;
+            --accent-pink: #ff006e; --success: #10b981; --warning: #f59e0b;
+            --danger: #ef4444; --text-primary: #ffffff; --text-secondary: #a8b5d1;
+            --card-bg: rgba(26, 31, 58, 0.6); --card-border: rgba(0, 212, 255, 0.15);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1629 100%);
+            color: var(--text-primary); min-height: 100vh; display: flex; flex-direction: column;
+            position: relative; overflow-x: hidden;
+        }
+        
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.03) 0%, transparent 50%);
+            pointer-events: none; z-index: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 999;
+            backdrop-filter: blur(10px); background: rgba(10, 14, 39, 0.95);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1); padding: 1.2rem 2rem;
+        }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; font-family: 'Playfair Display', serif;}
+        nav ul { display: flex; list-style: none; gap: 2.5rem; align-items: center; }
+        nav a { text-decoration: none; color: var(--text-secondary); font-weight: 500; font-size: 0.95rem; transition: color 0.3s; }
+        nav a:hover, nav a.active { color: var(--text-primary); }
+        .btn-logout { padding: 0.6rem 1.2rem; border: 1px solid var(--accent-pink); border-radius: 8px; cursor: pointer; font-weight: 600; background: rgba(255, 0, 110, 0.1); color: var(--accent-pink); transition: all 0.3s;}
+        .btn-logout:hover { background: rgba(255, 0, 110, 0.2); }
+
+        /* Profile Layout */
+        .profile-wrapper {
+            max-width: 1200px; margin: 120px auto 60px; padding: 0 2rem;
+            display: grid; grid-template-columns: 280px 1fr; gap: 2.5rem; position: relative; z-index: 1; flex-grow: 1; width: 100%;
+        }
+
+        /* Sidebar */
+        .settings-sidebar {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 16px; padding: 2rem 1rem; backdrop-filter: blur(10px); height: fit-content;
+            position: sticky; top: 120px;
+        }
+        
+        .user-mini-profile { text-align: center; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .avatar { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: bold; border: 3px solid var(--primary-light); box-shadow: 0 0 20px rgba(0,212,255,0.3); }
+        .user-mini-profile h3 { color: white; font-size: 1.1rem; margin-bottom: 0.2rem; }
+        .user-mini-profile p { color: var(--text-secondary); font-size: 0.85rem; word-break: break-all; }
+        .role-badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge-admin { background: rgba(245, 158, 11, 0.2); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.4); }
+        .badge-user { background: rgba(0, 212, 255, 0.1); color: var(--accent-cyan); border: 1px solid rgba(0, 212, 255, 0.3); }
+
+        .settings-nav { display: flex; flex-direction: column; gap: 0.4rem; }
+        .settings-nav button {
+            background: transparent; border: none; color: var(--text-secondary); padding: 0.9rem 1.2rem; text-align: left; font-size: 0.95rem; font-weight: 500; font-family: 'Poppins', sans-serif; border-radius: 8px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 0.8rem;
+        }
+        .settings-nav button:hover { background: rgba(255,255,255,0.05); color: white; }
+        .settings-nav button.active { background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(124,58,237,0.1)); color: var(--accent-cyan); border: 1px solid rgba(0,212,255,0.2); }
+
+        /* Main Content Area */
+        .settings-content { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 2.5rem; backdrop-filter: blur(10px); }
+        .settings-section { display: none; animation: fadeIn 0.4s ease; }
+        .settings-section.active { display: block; }
+        .section-header { margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1.5rem; }
+        .section-header h2 { font-size: 1.8rem; color: white; font-family: 'Playfair Display', serif; margin-bottom: 0.4rem; }
+        .section-header p { color: var(--text-secondary); font-size: 0.95rem; }
+
+        /* Forms & Inputs */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-group label { color: var(--text-secondary); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 0.9rem 1rem; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: 'Poppins', sans-serif; font-size: 0.95rem; transition: all 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--accent-cyan); background: rgba(0,212,255,0.05); box-shadow: 0 0 15px rgba(0,212,255,0.1); }
+        
+        .btn-primary { padding: 0.9rem 2rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: white; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 212, 255, 0.3); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+        
+        .btn-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid var(--danger); }
+        .btn-danger:hover { background: rgba(239, 68, 68, 0.2); transform: translateY(-2px); }
+
+        /* Toggles */
+        .toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; margin-bottom: 1rem; }
+        .toggle-info h4 { color: white; font-size: 1rem; margin-bottom: 0.2rem; }
+        .toggle-info p { color: var(--text-secondary); font-size: 0.85rem; }
+        
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); transition: .4s; border-radius: 34px; border: 1px solid rgba(255,255,255,0.1); }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); border-color: transparent; }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        .status-msg { padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; display: none; font-weight: 500; font-size: 0.9rem; }
+        .status-msg.success { background: rgba(16,185,129,0.1); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); display: block; }
+        .status-msg.error { background: rgba(239,68,68,0.1); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Need Auth Overlay */
+        #authOverlay { position: fixed; inset: 0; background: rgba(10,14,39,0.95); z-index: 1000; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1rem; backdrop-filter: blur(10px); }
+
+        @media (max-width: 900px) {
+            .profile-wrapper { grid-template-columns: 1fr; margin-top: 100px; }
+            .settings-sidebar { position: static; }
+            .form-grid { grid-template-columns: 1fr; }
+            nav ul { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="authOverlay">
+        <h2 style="font-family:'Playfair Display',serif; font-size:2.5rem; color:var(--accent-cyan);">Authentication Required</h2>
+        <p style="color:var(--text-secondary); margin-bottom:1rem;">Please log in to access your profile settings.</p>
+        <a href="index.html" class="btn-primary">Return to Home to Login</a>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">⚡ Codivra</a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#categories">Categories</a></li>
+                <li><a href="index.html#order">Order</a></li>
+                <li><a href="index.html#tracker">Track</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+            </ul>
+            <div>
+                <button class="btn-logout" onclick="logoutUser()">Log Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-wrapper">
+        <aside class="settings-sidebar">
+            <div class="user-mini-profile">
+                <div class="avatar" id="avatarInitials">U</div>
+                <h3 id="sidebarName">Loading...</h3>
+                <p id="sidebarEmail">...</p>
+                <div id="roleBadge" class="role-badge badge-user">User</div>
+            </div>
+            <div class="settings-nav">
+                <button class="nav-tab active" data-target="overview">📊 Account Overview</button>
+                <button class="nav-tab" data-target="edit-profile">👤 Edit Profile</button>
+                <button class="nav-tab" data-target="security">🔒 Security</button>
+                <button class="nav-tab" data-target="notifications">🔔 Notifications</button>
+                <button class="nav-tab" data-target="preferences">⚙️ Preferences</button>
+                <button class="nav-tab" data-target="billing">💳 Billing Details</button>
+                <button class="nav-tab" data-target="danger" style="color:var(--danger);">⚠️ Danger Zone</button>
+            </div>
+        </aside>
+
+        <main class="settings-content">
+            
+            <section id="overview" class="settings-section active">
+                <div class="section-header">
+                    <h2>Account Overview</h2>
+                    <p>At-a-glance summary of your Codivra account.</p>
+                </div>
+                <div class="form-grid">
+                    <div class="toggle-row" style="grid-column: 1/-1; background:rgba(0,212,255,0.05); border-color:rgba(0,212,255,0.2);">
+                        <div class="toggle-info">
+                            <h4 style="color:var(--accent-cyan);">Codivra User ID</h4>
+                            <p style="font-family:'Space Mono',monospace;" id="dispUid">Loading...</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Account Status</label>
+                        <input type="text" value="Active & Verified ✅" readonly style="opacity:0.8;">
+                    </div>
+                    <div class="form-group">
+                        <label>Member Since</label>
+                        <input type="text" id="dispJoinDate" value="Loading..." readonly style="opacity:0.8;">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Total Orders Placed</label>
+                        <input type="text" id="dispOrders" value="Loading..." readonly style="opacity:0.8;">
+                    </div>
+                    <div class="form-group full-width" style="grid-column:1/-1;">
+                        <a href="index.html#tracker" style="display:inline-block; padding:0.75rem 1.5rem; background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple)); color:white; border-radius:8px; font-weight:600; text-decoration:none; transition:all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">📦 Track / Pay for an Order</a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="edit-profile" class="settings-section">
+                <div class="section-header">
+                    <h2>Edit Profile</h2>
+                    <p>Update your personal information and public details.</p>
+                </div>
+                <div id="profileMsg" class="status-msg"></div>
+                <form id="profileForm" onsubmit="saveProfile(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="profName" placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="profPhone" placeholder="+91 98765 43210">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Company / Brand Name</label>
+                            <input type="text" id="profCompany" placeholder="Your Startup Inc.">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Location / Country</label>
+                            <input type="text" id="profLocation" placeholder="e.g. Mumbai, India">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Short Bio</label>
+                            <textarea id="profBio" rows="3" placeholder="Tell us a bit about your business..."></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary" id="btnSaveProfile">💾 Save Profile Changes</button>
+                </form>
+            </section>
+
+            <section id="security" class="settings-section">
+                <div class="section-header">
+                    <h2>Security Settings</h2>
+                    <p>Manage your password and secure your account.</p>
+                </div>
+                <div id="securityMsg" class="status-msg"></div>
+                
+                <h4 style="margin-bottom:1rem; color:var(--text-primary);">Change Password</h4>
+                <form id="passwordForm" onsubmit="changePassword(event)" style="margin-bottom: 3rem;">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>New Password</label>
+                            <input type="password" id="newPass" required placeholder="Minimum 6 characters">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Confirm New Password</label>
+                            <input type="password" id="confirmPass" required placeholder="Type again to confirm">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary" id="btnChangePass">🔑 Update Password</button>
+                </form>
+
+                <h4 style="margin-bottom:1rem; color:var(--text-primary);">Advanced Security</h4>
+                <div class="toggle-row">
+                    <div class="toggle-info">
+                        <h4>Two-Factor Authentication (2FA)</h4>
+                        <p>Require an extra code when logging in. (UI Demo)</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle2FA">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </section>
+
+            <section id="notifications" class="settings-section">
+                <div class="section-header">
+                    <h2>Notification Preferences</h2>
+                    <p>Control what emails and alerts you receive from Codivra.</p>
+                </div>
+                <div id="notifMsg" class="status-msg"></div>
+                
+                <form id="notifForm" onsubmit="savePreferences(event, 'notif')">
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <h4>Order Updates</h4>
+                            <p>Get notified when your website design moves to the next stage.</p>
+                        </div>
+                        <label class="switch"><input type="checkbox" id="notifOrders" checked><span class="slider"></span></label>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <h4>Payment Receipts</h4>
+                            <p>Receive an email invoice immediately after UPI confirmation.</p>
+                        </div>
+                        <label class="switch"><input type="checkbox" id="notifPayments" checked><span class="slider"></span></label>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <h4>Promotions & Offers</h4>
+                            <p>Occasional emails about new templates or discounts.</p>
+                        </div>
+                        <label class="switch"><input type="checkbox" id="notifPromo"><span class="slider"></span></label>
+                    </div>
+                    <button type="submit" class="btn-primary" style="margin-top:1rem;">💾 Save Preferences</button>
+                </form>
+            </section>
+
+            <section id="preferences" class="settings-section">
+                <div class="section-header">
+                    <h2>Account Preferences</h2>
+                    <p>Customize your experience on the platform.</p>
+                </div>
+                <div id="prefMsg" class="status-msg"></div>
+                
+                <form id="prefForm" onsubmit="savePreferences(event, 'pref')">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Dashboard Language</label>
+                            <select id="prefLang">
+                                <option value="en">English (US)</option>
+                                <option value="hi">Hindi (हिंदी)</option>
+                                <option value="es">Spanish (Español)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Preferred Currency</label>
+                            <select id="prefCurrency">
+                                <option value="INR">Indian Rupee (₹)</option>
+                                <option value="USD">US Dollar ($)</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>UI Theme</label>
+                            <select id="prefTheme">
+                                <option value="dark">Dark Theme (Default)</option>
+                                <option value="light">Light Theme (Coming Soon)</option>
+                                <option value="system">Sync with System</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">💾 Save Preferences</button>
+                </form>
+            </section>
+
+            <section id="billing" class="settings-section">
+                <div class="section-header">
+                    <h2>Billing Details</h2>
+                    <p>Used for generating invoices for your website orders.</p>
+                </div>
+                <div id="billingMsg" class="status-msg"></div>
+                
+                <form id="billingForm" onsubmit="saveBilling(event)">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Billing Name / Company</label>
+                            <input type="text" id="billName" placeholder="Name to appear on invoices">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>GSTIN / Tax ID (Optional)</label>
+                            <input type="text" id="billTax" placeholder="e.g. 22AAAAA0000A1Z5">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Full Address</label>
+                            <textarea id="billAddress" rows="3" placeholder="Street, City, State, ZIP"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">💾 Save Billing Info</button>
+                </form>
+            </section>
+
+            <section id="danger" class="settings-section">
+                <div class="section-header" style="border-bottom-color: rgba(239, 68, 68, 0.2);">
+                    <h2 style="color:var(--danger);">Danger Zone</h2>
+                    <p>Irreversible and destructive actions.</p>
+                </div>
+                
+                <div class="toggle-row" style="border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05); align-items:flex-start;">
+                    <div class="toggle-info">
+                        <h4 style="color:var(--danger);">Delete Account</h4>
+                        <p style="margin-bottom: 1rem;">Permanently delete your account, order history, and preferences. This action cannot be undone.</p>
+                        <button class="btn-primary btn-danger" onclick="deleteAccount()">🗑️ Delete Account</button>
+                    </div>
+                </div>
+                
+                <div class="toggle-row" style="margin-top:1.5rem;">
+                    <div class="toggle-info">
+                        <h4>Export Data</h4>
+                        <p style="margin-bottom: 1rem;">Download a JSON copy of all data associated with your account.</p>
+                        <button class="btn-primary" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2);" onclick="alert('Export feature coming soon!')">📥 Request Data Export</button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+
+    <script>
+        // --- 1. Firebase Initialization ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhFr5Iyf7ta7kYAsFyvh6GKhv3fVWkp9E",
+            authDomain: "chat-bot-f4f63.firebaseapp.com",
+            databaseURL: "https://chat-bot-f4f63-default-rtdb.firebaseio.com",
+            projectId: "chat-bot-f4f63",
+            storageBucket: "chat-bot-f4f63.firebasestorage.app",
+            messagingSenderId: "1022141991241",
+            appId: "1:1022141991241:web:c5ada82b21e5227d01f298"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        let currentUser = null;
+
+        // --- 2. Auth State Listener ---
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('authOverlay').style.display = 'none';
+                
+                // Populate Basic UI
+                document.getElementById('sidebarEmail').textContent = user.email;
+                document.getElementById('dispUid').textContent = user.uid;
+                document.getElementById('dispJoinDate').textContent = new Date(user.metadata.creationTime).toLocaleDateString('en-IN');
+                document.getElementById('avatarInitials').textContent = user.email.charAt(0).toUpperCase();
+                
+                checkAdminStatus(user.uid);
+                loadUserData(user.uid);
+            } else {
+                document.getElementById('authOverlay').style.display = 'flex';
+            }
+        });
+
+        // --- 3. Tab Navigation Logic ---
+        const tabs = document.querySelectorAll('.nav-tab');
+        const sections = document.querySelectorAll('.settings-section');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.getAttribute('data-target')).classList.add('active');
+            });
+        });
+
+        // --- 4. Load Data from Realtime DB ---
+        function checkAdminStatus(uid) {
+            db.ref('admins/' + uid).once('value').then(snap => {
+                const badge = document.getElementById('roleBadge');
+                if (snap.exists()) {
+                    badge.textContent = 'Admin';
+                    badge.className = 'role-badge badge-admin';
+                } else {
+                    badge.textContent = 'User';
+                    badge.className = 'role-badge badge-user';
+                }
+            }).catch(e => console.log("User is not admin."));
+        }
+
+        function loadUserData(uid) {
+            // Load Order Count
+            db.ref('users/' + uid + '/orders').once('value').then(snap => {
+                const count = snap.exists() ? Object.keys(snap.val()).length : 0;
+                document.getElementById('dispOrders').value = count + (count === 1 ? ' order' : ' orders');
+            }).catch(() => { document.getElementById('dispOrders').value = '0 orders'; });
+
+            // Load Profile
+            db.ref('users/' + uid + '/profile').once('value').then(snap => {
+                if (snap.exists()) {
+                    const p = snap.val();
+                    document.getElementById('profName').value = p.name || '';
+                    document.getElementById('profPhone').value = p.phone || '';
+                    document.getElementById('profCompany').value = p.company || '';
+                    document.getElementById('profLocation').value = p.location || '';
+                    document.getElementById('profBio').value = p.bio || '';
+                    
+                    if (p.name) {
+                        document.getElementById('sidebarName').textContent = p.name;
+                        document.getElementById('avatarInitials').textContent = p.name.charAt(0).toUpperCase();
+                    } else {
+                        document.getElementById('sidebarName').textContent = 'Welcome!';
+                    }
+                } else {
+                    document.getElementById('sidebarName').textContent = 'Welcome!';
+                }
+            });
+
+            // Load Preferences & Notifications
+            db.ref('users/' + uid + '/preferences').once('value').then(snap => {
+                if (snap.exists()) {
+                    const pref = snap.val();
+                    document.getElementById('notifOrders').checked = pref.notifOrders !== false;
+                    document.getElementById('notifPayments').checked = pref.notifPayments !== false;
+                    document.getElementById('notifPromo').checked = pref.notifPromo === true;
+                    document.getElementById('toggle2FA').checked = pref.use2FA === true;
+                    
+                    if(pref.lang) document.getElementById('prefLang').value = pref.lang;
+                    if(pref.currency) document.getElementById('prefCurrency').value = pref.currency;
+                    if(pref.theme) document.getElementById('prefTheme').value = pref.theme;
+                }
+            });
+
+            // Load Billing
+            db.ref('users/' + uid + '/billing').once('value').then(snap => {
+                if (snap.exists()) {
+                    const b = snap.val();
+                    document.getElementById('billName').value = b.name || '';
+                    document.getElementById('billTax').value = b.taxId || '';
+                    document.getElementById('billAddress').value = b.address || '';
+                }
+            });
+        }
+
+        // --- 5. Save Functions ---
+        function showMsg(id, msg, isError = false) {
+            const el = document.getElementById(id);
+            el.textContent = msg;
+            el.className = 'status-msg ' + (isError ? 'error' : 'success');
+            setTimeout(() => { el.style.display = 'none'; }, 4000);
+        }
+
+        async function saveProfile(e) {
+            e.preventDefault();
+            if(!currentUser) return;
+            const btn = document.getElementById('btnSaveProfile'); btn.disabled = true; btn.textContent = 'Saving...';
+            
+            const data = {
+                name: document.getElementById('profName').value.trim(),
+                phone: document.getElementById('profPhone').value.trim(),
+                company: document.getElementById('profCompany').value.trim(),
+                location: document.getElementById('profLocation').value.trim(),
+                bio: document.getElementById('profBio').value.trim()
+            };
+
+            try {
+                await db.ref('users/' + currentUser.uid + '/profile').update(data);
+                showMsg('profileMsg', '✅ Profile updated successfully!');
+                if(data.name) {
+                    document.getElementById('sidebarName').textContent = data.name;
+                    document.getElementById('avatarInitials').textContent = data.name.charAt(0).toUpperCase();
+                }
+            } catch(err) { showMsg('profileMsg', '❌ Error: ' + err.message, true); }
+            finally { btn.disabled = false; btn.textContent = '💾 Save Profile Changes'; }
+        }
+
+        async function savePreferences(e, type) {
+            e.preventDefault();
+            if(!currentUser) return;
+            
+            const data = {
+                notifOrders: document.getElementById('notifOrders').checked,
+                notifPayments: document.getElementById('notifPayments').checked,
+                notifPromo: document.getElementById('notifPromo').checked,
+                lang: document.getElementById('prefLang').value,
+                currency: document.getElementById('prefCurrency').value,
+                theme: document.getElementById('prefTheme').value,
+                use2FA: document.getElementById('toggle2FA').checked
+            };
+
+            try {
+                await db.ref('users/' + currentUser.uid + '/preferences').update(data);
+                if(type === 'notif') showMsg('notifMsg', '✅ Notification settings saved!');
+                if(type === 'pref') showMsg('prefMsg', '✅ Preferences updated!');
+            } catch(err) { 
+                if(type === 'notif') showMsg('notifMsg', '❌ Error: ' + err.message, true);
+                if(type === 'pref') showMsg('prefMsg', '❌ Error: ' + err.message, true);
+            }
+        }
+
+        async function saveBilling(e) {
+            e.preventDefault();
+            if(!currentUser) return;
+            const data = {
+                name: document.getElementById('billName').value.trim(),
+                taxId: document.getElementById('billTax').value.trim(),
+                address: document.getElementById('billAddress').value.trim()
+            };
+            try {
+                await db.ref('users/' + currentUser.uid + '/billing').update(data);
+                showMsg('billingMsg', '✅ Billing details saved!');
+            } catch(err) { showMsg('billingMsg', '❌ Error: ' + err.message, true); }
+        }
+
+        async function changePassword(e) {
+            e.preventDefault();
+            const pass = document.getElementById('newPass').value;
+            const conf = document.getElementById('confirmPass').value;
+            const btn = document.getElementById('btnChangePass');
+            
+            if(pass !== conf) { showMsg('securityMsg', '❌ Passwords do not match.', true); return; }
+            if(pass.length < 6) { showMsg('securityMsg', '❌ Password must be at least 6 characters.', true); return; }
+
+            btn.disabled = true; btn.textContent = 'Updating...';
+            try {
+                await currentUser.updatePassword(pass);
+                showMsg('securityMsg', '✅ Password updated successfully!');
+                document.getElementById('passwordForm').reset();
+            } catch(err) { 
+                if(err.code === 'auth/requires-recent-login') {
+                    showMsg('securityMsg', '❌ Please log out and log back in to change your password.', true);
+                } else {
+                    showMsg('securityMsg', '❌ Error: ' + err.message, true); 
+                }
+            }
+            finally { btn.disabled = false; btn.textContent = '🔑 Update Password'; }
+        }
+
+        async function deleteAccount() {
+            if(!currentUser) return;
+            const confirmStr = prompt(`WARNING: This will permanently delete your account.\nType "DELETE" to confirm.`);
+            if(confirmStr === "DELETE") {
+                try {
+                    // In a real app, you might want to trigger a cloud function to delete DB data too
+                    await currentUser.delete();
+                    alert("Account deleted.");
+                    window.location.href = 'index.html';
+                } catch(err) {
+                    if(err.code === 'auth/requires-recent-login') {
+                        alert("For security reasons, please log out and log back in before deleting your account.");
+                    } else {
+                        alert("Error: " + err.message);
+                    }
+                }
+            }
+        }
+
+        function logoutUser() {
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        }
+    </script>
+</body>
+</html>
