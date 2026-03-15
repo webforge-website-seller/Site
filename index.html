@@ -1008,27 +1008,7 @@
                             <div style="margin-top: 0.8rem; padding: 0.6rem 1rem; background: rgba(0,212,255,0.08); border-radius: 8px; display: inline-block;">
                                 <span style="color: var(--accent-cyan); font-weight: 600; font-size: 0.9rem;">UPI ID: 9798642195@fam</span>
                             </div>
-                            <div style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
-
-  <a href="tez://upi/pay?pa=9798642195@fam&pn=Codivra&am=5000&cu=INR&tn=Website+Order"
-     style="display:flex;align-items:center;gap:10px;padding:14px 20px;background:#fff;border:1px solid #ddd;border-radius:12px;text-decoration:none;color:#000;font-weight:600;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/512px-Google_Pay_Logo.svg.png" width="28"> 
-    Pay with Google Pay
-  </a>
-
-  <a href="phonepe://pay?pa=9798642195@fam&pn=Codivra&am=5000&cu=INR&tn=Website+Order"
-     style="display:flex;align-items:center;gap:10px;padding:14px 20px;background:#5f259f;border-radius:12px;text-decoration:none;color:#fff;font-weight:600;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/PhonePe_Logo.svg/512px-PhonePe_Logo.svg.png" width="28">
-    Pay with PhonePe
-  </a>
-
-  <a href="paytmmp://pay?pa=9798642195@fam&pn=Codivra&am=5000&cu=INR&tn=Website+Order"
-     style="display:flex;align-items:center;gap:10px;padding:14px 20px;background:#00BAF2;border-radius:12px;text-decoration:none;color:#fff;font-weight:600;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/512px-Paytm_Logo_%28standalone%29.svg.png" width="28">
-    Pay with Paytm
-  </a>
-
-                            </div>
+                            
                         </div>
                         <div class="payment-buttons" style="margin-top: 1.2rem;">
                             <button class="btn-payment btn-payment-primary" id="paidBtn" onclick="markAsPaid()">✅ I've Paid</button>
@@ -1040,7 +1020,62 @@
                     <div class="pending-section" id="pendingSection">
                         <div style="font-size: 3rem; margin-bottom: 1rem;">⏳</div>
                         <h3>Payment Under Review</h3>
-                        <p>Thank you for your payment! Our team will verify your transaction within <strong style="color: var(--warning);">24 hours</strong>.</p>
+                        <p>Thank you for your payment<!-- Payment Section -->
+<div class="payment-section" id="paymentSection">
+    <h3>📱 Complete Payment via UPI</h3>
+    <p>Your website is ready! Pay securely using your preferred method below.</p>
+
+    <div class="amount-box">
+        <p>Amount to Pay:</p>
+        <div class="amount" id="totalAmount">₹5,000</div>
+    </div>
+
+    <!-- QR + App Buttons Side by Side -->
+    <div style="display:flex; gap:1.2rem; margin:1.4rem 0; align-items:stretch; flex-wrap:wrap; justify-content:center;">
+
+        <!-- QR Code Column -->
+        <div style="flex:1; min-width:180px; max-width:220px; display:flex; flex-direction:column; align-items:center; background:rgba(0,212,255,0.04); border:1px solid rgba(0,212,255,0.15); border-radius:14px; padding:1.2rem;">
+            <p style="color:var(--text-secondary); font-size:0.8rem; margin-bottom:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Scan QR Code</p>
+            <div style="background:white; border-radius:12px; padding:0.8rem; box-shadow:0 0 20px rgba(0,212,255,0.25);">
+                <img id="qrCodeImg" src="" alt="UPI QR Code" style="width:160px; height:160px; display:block;">
+            </div>
+            <p style="color:var(--text-secondary); font-size:0.75rem; margin-top:0.7rem;">Any UPI app</p>
+        </div>
+
+        <!-- Divider -->
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.4rem; color:var(--text-secondary); font-size:0.8rem; font-weight:600; min-width:30px;">
+            <div style="flex:1; width:1px; background:rgba(0,212,255,0.15);"></div>
+            OR
+            <div style="flex:1; width:1px; background:rgba(0,212,255,0.15);"></div>
+        </div>
+
+        <!-- App Buttons Column -->
+        <div style="flex:1; min-width:160px; display:flex; flex-direction:column; gap:0.7rem; justify-content:center;">
+            <p style="color:var(--text-secondary); font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.2rem;">Pay with App</p>
+            <a id="gpayBtn" href="#" style="display:flex; align-items:center; gap:0.8rem; padding:0.75rem 1rem; background:#fff; color:#000; border-radius:10px; text-decoration:none; font-weight:700; font-size:0.88rem; box-shadow:0 4px 15px rgba(0,0,0,0.12); transition:all 0.3s;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/512px-Google_Pay_Logo.svg.png" style="width:28px;height:28px;object-fit:contain;"> Google Pay
+            </a>
+            <a id="phonepeBtn" href="#" style="display:flex; align-items:center; gap:0.8rem; padding:0.75rem 1rem; background:#5f259f; color:#fff; border-radius:10px; text-decoration:none; font-weight:700; font-size:0.88rem; box-shadow:0 4px 15px rgba(95,37,159,0.4); transition:all 0.3s;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/PhonePe_Logo.svg/512px-PhonePe_Logo.svg.png" style="width:28px;height:28px;object-fit:contain;"> PhonePe
+            </a>
+            <a id="paytmBtn" href="#" style="display:flex; align-items:center; gap:0.8rem; padding:0.75rem 1rem; background:#00baf2; color:#fff; border-radius:10px; text-decoration:none; font-weight:700; font-size:0.88rem; box-shadow:0 4px 15px rgba(0,186,242,0.4); transition:all 0.3s;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/512px-Paytm_Logo_%28standalone%29.svg.png" style="width:28px;height:28px;object-fit:contain;"> Paytm
+            </a>
+        </div>
+    </div>
+
+    <!-- Copy UPI ID -->
+    <p style="color:var(--text-secondary); font-size:0.82rem; margin-bottom:0.4rem;">Or copy UPI ID manually:</p>
+    <div style="display:flex; align-items:center; gap:0.5rem; background:rgba(0,212,255,0.06); border:1px solid rgba(0,212,255,0.25); border-radius:10px; padding:0.7rem 1rem;">
+        <input type="text" id="displayUpiId" value="9798642195@fam" readonly style="flex:1; background:transparent; border:none; color:var(--accent-cyan); font-weight:600; font-size:0.95rem; outline:none;">
+        <button onclick="navigator.clipboard.writeText(document.getElementById('displayUpiId').value).then(()=>{this.textContent='✅ Copied!'; setTimeout(()=>this.textContent='📋 Copy',2000)})" style="padding:0.4rem 0.9rem; background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple)); color:white; border:none; border-radius:6px; font-weight:600; font-size:0.82rem; cursor:pointer;">📋 Copy</button>
+    </div>
+
+    <div style="display:flex; gap:1rem; margin-top:1.5rem; flex-wrap:wrap;">
+        <button class="btn-payment btn-payment-primary" id="paidBtn" onclick="markAsPaid()" style="flex:1;">✅ I've Paid</button>
+        <button onclick="cancelPaymentUI()" style="flex:1; padding:0.9rem; background:rgba(239,68,68,0.15); color:#fca5a5; border:1px solid rgba(239,68,68,0.4); border-radius:8px; font-weight:700; cursor:pointer;">❌ Cancel</button>
+    </div>
+</div>! Our team will verify your transaction within <strong style="color: var(--warning);">24 hours</strong>.</p>
                         <p style="margin-top: 0.8rem; font-size: 0.9rem;">You'll be notified once confirmed. Your download will be available here automatically.</p>
                         <div style="margin-top: 1.2rem; padding: 0.8rem 1.5rem; background: rgba(245,158,11,0.1); border-radius: 10px; display: inline-block; border: 1px solid rgba(245,158,11,0.3);">
                             <span style="color: var(--warning);">🕐 Checking back? Refresh or re-enter your Order ID to see updated status.</span>
