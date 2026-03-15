@@ -1454,6 +1454,18 @@
                 const step = document.getElementById('step' + i);
                 step.classList.toggle('active', i <= current);
             }
+            function generateQRCode(amount, orderId) {
+    const tn  = encodeURIComponent('Codivra Order ' + orderId);
+    const pn  = encodeURIComponent('Codivra');
+    const upiStr = 'upi://pay?pa=' + UPI_ID + '&pn=' + pn + '&am=' + amount + '&cu=INR&tn=' + tn;
+
+    document.getElementById('qrCodeImg').src =
+        'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(upiStr) + '&bgcolor=ffffff&color=0a0e27&margin=10';
+
+    document.getElementById('gpayBtn').href    = 'tez://upi/pay?pa='    + UPI_ID + '&pn=' + pn + '&am=' + amount + '&cu=INR&tn=' + tn;
+    document.getElementById('phonepeBtn').href = 'phonepe://pay?pa='    + UPI_ID + '&pn=' + pn + '&am=' + amount + '&cu=INR&tn=' + tn;
+    document.getElementById('paytmBtn').href   = 'paytmmp://pay?pa='    + UPI_ID + '&pn=' + pn + '&am=' + amount + '&cu=INR&tn=' + tn;
+            }
 
             const paymentSection = document.getElementById('paymentSection');
             const pendingSection = document.getElementById('pendingSection');
