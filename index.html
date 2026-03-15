@@ -1,0 +1,2045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codivra - Premium Custom Websites</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #0a0e27;
+            --primary-light: #1a1f3a;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #7c3aed;
+            --accent-pink: #ff006e;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #a8b5d1;
+            --card-bg: rgba(26, 31, 58, 0.6);
+            --card-border: rgba(0, 212, 255, 0.1);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1629 100%);
+            color: var(--text-primary);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 20%, rgba(255, 0, 110, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 14, 39, 0.95);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            padding: 1.2rem 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after { width: 100%; }
+
+        .auth-section {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .btn-login, .btn-logout, .btn-primary, .btn-download {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(0, 212, 255, 0.3); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(0, 212, 255, 0.3); }
+
+        .btn-logout {
+            background: rgba(255, 0, 110, 0.1);
+            color: var(--accent-pink);
+            border: 1px solid var(--accent-pink);
+        }
+
+        .btn-logout:hover { background: rgba(255, 0, 110, 0.2); }
+
+        .btn-download {
+            background: linear-gradient(135deg, var(--success), #34d399);
+            color: white;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+        .btn-download:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3); }
+
+        .user-email { color: var(--accent-cyan); font-weight: 600; }
+
+        .hidden { display: none !important; }
+
+        .hero {
+            margin-top: 70px;
+            padding: 100px 2rem;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content { max-width: 900px; animation: fadeInUp 1s ease 0.3s both; }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .highlight {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.9s both;
+        }
+
+        .btn-hero {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-hero.primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: white;
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-hero.primary:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0, 212, 255, 0.4); }
+
+        .btn-hero.secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent-cyan);
+            border: 2px solid var(--accent-cyan);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-hero.secondary:hover { background: rgba(0, 212, 255, 0.1); transform: translateY(-4px); }
+
+        .how-it-works {
+            padding: 100px 2rem;
+            background: rgba(26, 31, 58, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .timeline {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .timeline-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 2.5rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .timeline-item:hover { transform: translateY(-10px); border-color: var(--accent-cyan); box-shadow: 0 15px 40px rgba(0, 212, 255, 0.15); }
+
+        .timeline-item::before {
+            content: attr(data-step);
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .timeline-item h3 { font-size: 1.3rem; margin: 1.5rem 0 1rem; color: var(--accent-cyan); }
+
+        .categories { padding: 100px 2rem; position: relative; z-index: 1; }
+
+        .categories-grid {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 2.5rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card:hover { transform: translateY(-15px) scale(1.05); border-color: var(--accent-cyan); box-shadow: 0 20px 50px rgba(0, 212, 255, 0.2); }
+
+        .category-icon { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
+
+        .category-card h3 { font-size: 1.5rem; margin: 1rem 0; color: var(--accent-cyan); }
+
+        .category-card button {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-card button:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3); }
+
+        .order-section { padding: 100px 2rem; background: rgba(26, 31, 58, 0.3); position: relative; z-index: 1; }
+
+        .order-form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        #authRequired {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .form-group { margin-bottom: 1.5rem; }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            background: rgba(0, 212, 255, 0.05);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+        }
+
+        textarea { resize: vertical; min-height: 120px; }
+
+        .budget-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .budget-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+        }
+
+        .budget-value {
+            text-align: right;
+            color: var(--accent-cyan);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .form-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+            font-weight: 600;
+        }
+
+        .form-message.error { background: rgba(239, 68, 68, 0.1); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        .form-message.success { background: rgba(16, 185, 129, 0.1); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+        .form-message.show { display: block; animation: slideIn 0.3s ease; }
+
+        .tracker-section { padding: 100px 2rem; position: relative; z-index: 1; }
+
+        .tracker-container { max-width: 900px; margin: 0 auto; }
+
+        .tracker-input { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+
+        .tracker-input input { flex: 1; min-width: 250px; }
+
+        .tracker-input button {
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .status-display {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+
+        .status-timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-step { text-align: center; position: relative; }
+
+        .status-step.active .step-circle {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid var(--card-border);
+            margin: 0 auto 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .step-label { font-size: 0.9rem; color: var(--text-secondary); }
+
+        .status-info {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-info h3 { color: var(--accent-cyan); margin-bottom: 0.5rem; }
+
+        .payment-section {
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid var(--warning);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1.5rem 0;
+            display: none;
+        }
+
+        .payment-section h3 {
+            color: var(--warning);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .payment-section p { color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6; }
+
+        .amount-box {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(245, 158, 11, 0.05);
+            border-radius: 10px;
+        }
+
+        .amount-box p { color: var(--text-secondary); margin-bottom: 0.5rem; }
+
+        .amount-box .amount {
+            font-size: 1.5rem;
+            color: var(--warning);
+            font-weight: 700;
+        }
+
+        .payment-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-payment {
+            padding: 0.9rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-payment-primary {
+            background: linear-gradient(135deg, var(--warning), #fbbf24);
+            color: white;
+        }
+
+        .btn-payment-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3); }
+
+        .upi-app-buttons {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 0.5rem 0 1.2rem;
+        }
+
+        .upi-app-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.7rem 1.4rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+            min-width: 140px;
+        }
+
+        .gpay-btn {
+            background: linear-gradient(135deg, #1a73e8, #0052cc);
+            color: white;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+        }
+        .gpay-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(26,115,232,0.4); }
+
+        .phonepe-btn {
+            background: linear-gradient(135deg, #5f259f, #7b2fbe);
+            color: white;
+            box-shadow: 0 4px 15px rgba(95, 37, 159, 0.3);
+        }
+        .phonepe-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(95,37,159,0.4); }
+
+        .paytm-btn {
+            background: linear-gradient(135deg, #002970, #00b9f1);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 185, 241, 0.3);
+        }
+        .paytm-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,185,241,0.4); }
+
+        .completed-section {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--success);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1.5rem 0;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .pending-section {
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid var(--warning);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1.5rem 0;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .pending-section h3 { color: var(--warning); margin-bottom: 0.8rem; font-size: 1.3rem; }
+        .pending-section p { color: var(--text-secondary); line-height: 1.6; }
+
+        .completed-section h3 {
+            color: var(--success);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .completed-section.show { display: block; }
+
+        .orders-list { display: grid; gap: 1.5rem; margin-top: 2rem; }
+
+        .order-card {
+            background: rgba(26, 31, 58, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .order-card:hover { border-color: var(--accent-cyan); box-shadow: 0 8px 25px rgba(0, 212, 255, 0.15); }
+
+        .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
+
+        .order-id { font-family: 'Space Mono', monospace; color: var(--accent-cyan); font-weight: 700; }
+
+        .order-status {
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .order-status.status-completed { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
+
+        .order-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .order-info p { color: var(--text-secondary); }
+
+        .order-info strong { color: var(--accent-cyan); }
+
+        .order-actions {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .order-actions button { flex: 1; padding: 0.7rem; margin: 0; }
+
+        .btn-preview-card {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            background: rgba(124, 58, 237, 0.15);
+            color: #c4b5fd;
+            border: 1px solid rgba(124, 58, 237, 0.4);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-preview-card:hover {
+            background: rgba(124, 58, 237, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel-order {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            background: rgba(239, 68, 68, 0.12);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-cancel-order:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .order-card.order-cancelled {
+            border-color: rgba(239, 68, 68, 0.25);
+            opacity: 0.7;
+        }
+
+        .order-status.status-cancelled {
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+        }
+
+        footer {
+            background: rgba(10, 14, 39, 0.9);
+            border-top: 1px solid var(--card-border);
+            padding: 3rem 2rem 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 { color: var(--accent-cyan); margin-bottom: 1rem; }
+
+        .footer-section a { display: block; color: var(--text-secondary); text-decoration: none; margin-bottom: 0.7rem; transition: color 0.3s ease; }
+
+        .footer-section a:hover { color: var(--accent-cyan); }
+
+        .footer-bottom { text-align: center; color: var(--text-secondary); padding-top: 2rem; border-top: 1px solid var(--card-border); }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active { display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s ease; }
+
+        .modal-content {
+            background: var(--primary-light);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 3rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-btn { background: none; border: none; font-size: 1.5rem; color: var(--text-secondary); cursor: pointer; }
+
+        .tab-buttons { display: flex; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--card-border); padding-bottom: 1rem; }
+
+        .tab-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; font-weight: 600; padding: 0.5rem 1rem; transition: all 0.3s ease; }
+
+        .tab-btn.active { color: var(--accent-cyan); }
+
+        .tab-content { display: none; }
+
+        .tab-content.active { display: block; }
+
+        .auth-message { padding: 0.8rem; border-radius: 8px; margin-bottom: 1rem; display: none; font-size: 0.9rem; font-weight: 600; }
+
+        .auth-message.show { display: block; animation: slideIn 0.3s ease; }
+
+        .auth-message.error { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        .auth-message.success { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+        .loading { opacity: 0.7; pointer-events: none; }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-cyan);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            nav ul { gap: 1.5rem; font-size: 0.9rem; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .btn-hero { width: 100%; max-width: 300px; }
+            .status-timeline { grid-template-columns: repeat(2, 1fr); }
+            .modal-content { padding: 2rem; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
+
+        /* ── Seller Admin Panel ─────────────────────────────── */
+        #sellerPanelBtn {
+            display: none;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(245,158,11,0.3);
+        }
+        #sellerPanelBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,0.4); }
+
+        #sellerModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+        }
+        #sellerModal.active { display: flex; }
+
+        .seller-modal-box {
+            background: linear-gradient(135deg, #0f1629, #1a1f3a);
+            border: 1.5px solid rgba(245,158,11,0.4);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 520px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(245,158,11,0.1);
+            animation: slideIn 0.3s ease;
+        }
+
+        .seller-modal-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.4rem;
+        }
+
+        .seller-modal-box .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            margin-bottom: 2rem;
+        }
+
+        .seller-upi-current {
+            background: rgba(245,158,11,0.08);
+            border: 1px solid rgba(245,158,11,0.25);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .seller-upi-current .label {
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .seller-upi-current .value {
+            color: #fbbf24;
+            font-weight: 700;
+            font-size: 1.05rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .upi-status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+
+        .seller-input-row {
+            display: flex;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .seller-input-row input {
+            flex: 1;
+            font-size: 0.95rem;
+        }
+
+        .btn-seller-save {
+            padding: 0.8rem 1.4rem;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .btn-seller-save:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,0.4); }
+        .btn-seller-save:disabled { opacity: 0.6; cursor: default; transform: none; }
+
+        .seller-save-msg {
+            font-size: 0.85rem;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            display: none;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        .seller-save-msg.ok  { background: rgba(16,185,129,0.12); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); display: block; }
+        .seller-save-msg.err { background: rgba(239,68,68,0.12);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.3);  display: block; }
+
+        .seller-info-note {
+            margin-top: 1.5rem;
+            padding: 1rem 1.2rem;
+            background: rgba(0,212,255,0.05);
+            border: 1px solid rgba(0,212,255,0.15);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+
+        .seller-info-note strong { color: var(--accent-cyan); }
+
+        /* Loading state for payment section */
+        .upi-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            padding: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .upi-loading::before {
+            content: '';
+            width: 18px; height: 18px;
+            border: 2px solid rgba(0,212,255,0.3);
+            border-top-color: var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">⚡ Codivra</div>
+            <ul>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#order">Order</a></li>
+                <li><a href="#tracker">Track</a></li>
+                <li><a href="portfolio.html">portfolio</a></li>
+            </ul>
+            <div class="auth-section">
+                <button id="loginBtn" class="btn-login" onclick="openLoginModal()">Sign In</button>
+                <div id="userInfo" class="hidden" style="display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;">
+                    <p hidden><span class="user-email" id="userEmail"></span></p>
+                    <li><a href="profile.html">Pofile</a></li>
+                    <button id="sellerPanelBtn" onclick="openSellerPanel()">⚙️ Seller Panel</button>
+                    <button class="btn-logout" onclick="logoutUser()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Build Your <span class="highlight">Digital Empire</span>. Custom Websites at Your Fingertips.</h1>
+            <p>Choose from premium pre-built packages or get a fully custom website. Professional, scalable, and delivered fast.</p>
+            <div class="hero-buttons">
+                <button class="btn-hero primary" onclick="document.getElementById('order').scrollIntoView({behavior: 'smooth'})"> Order Custom Website </button>
+                <a href="/cdn-cgi/l/email-protection#3b495a52555a575e494f0b0c0c7b5c565a525715585456" class="btn-hero secondary">Email Me Directly</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <h2 class="section-title">How It Works</h2>
+            <div class="timeline">
+                <div class="timeline-item" data-step="1">
+                    <h3>Choose a Category</h3>
+                    <p>Select from industry-specific templates or go fully custom.</p>
+                </div>
+                <div class="timeline-item" data-step="2">
+                    <h3>Define Requirements</h3>
+                    <p>Tell us your needs, budget, and timeline.</p>
+                </div>
+                <div class="timeline-item" data-step="3">
+                    <h3>We Build & Launch</h3>
+                    <p>Expert team develops your site. Make payment to access.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories" id="categories">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <h2 class="section-title">Industry Categories</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <span class="category-icon">🛒</span>
+                    <h3>E-Commerce</h3>
+                    <p>Scalable online stores with payment gateways and inventory management.</p>
+                    <button onclick="selectCategory('E-Commerce')">Choose Template</button>
+                </div>
+                <div class="category-card">
+                    <span class="category-icon">🏥</span>
+                    <h3>Healthcare</h3>
+                    <p>HIPAA-compliant platforms with appointment booking.</p>
+                    <button onclick="selectCategory('Healthcare')">Choose Template</button>
+                </div>
+                <div class="category-card">
+                    <span class="category-icon">🎮</span>
+                    <h3>eSports & Gaming</h3>
+                    <p>High-energy team portals with tournament tracking.</p>
+                    <button onclick="selectCategory('eSports & Gaming')">Choose Template</button>
+                </div>
+                <div class="category-card">
+                    <span class="category-icon">🏢</span>
+                    <h3>Business & Corporate</h3>
+                    <p>Professional company profiles with lead generation.</p>
+                    <button onclick="selectCategory('Business & Corporate')">Choose Template</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section class="order-section" id="order">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <h2 class="section-title">Place Your Order</h2>
+            <div class="order-form-container">
+                <div id="authRequired">
+                    <p style="font-size: 1.1rem; margin-bottom: 1rem;">🔐 Sign in to place an order</p>
+                    <button class="btn-primary" onclick="openLoginModal()">Sign In Now</button>
+                </div>
+                <form id="orderForm" style="display: none;">
+                    <div class="form-message" id="formMsg"></div>
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" required>
+                            <option value="">Select a category</option>
+                            <option value="E-Commerce">🛒 E-Commerce</option>
+                            <option value="Healthcare">🏥 Healthcare</option>
+                            <option value="eSports & Gaming">🎮 eSports & Gaming</option>
+                            <option value="Business & Corporate">🏢 Business & Corporate</option>
+                            <option value="Custom">✨ Fully Custom</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Project Description</label>
+                        <textarea id="description" placeholder="Tell us about your project..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Budget: <span class="budget-value" id="budgetValue">₹5,000</span></label>
+                        <input type="range" id="budget" class="budget-slider" min="1000" max="500000" value="5000" step="500">
+                        <small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">💡 Adjust slider to set your budget in INR (UI only, no charge yet)</small>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; padding: 1rem;">Submit Order</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Status Tracker -->
+    <section class="tracker-section" id="tracker">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <h2 class="section-title">Track Your Order & Pay</h2>
+            
+            <div class="tracker-container">
+                <div class="tracker-input">
+                    <input type="text" id="trackingId" placeholder="Enter your Order ID to track status...">
+                    <button onclick="trackOrder()">Track Order</button>
+                </div>
+
+                <!-- Status Display -->
+                <div class="status-display" id="statusDisplay">
+                    <div class="status-info">
+                        <h3>Order ID: <span id="displayId"></span></h3>
+                        <p>Current Status: <strong id="displayStatus"></strong></p>
+                    </div>
+
+                    <div class="status-timeline">
+                        <div class="status-step" id="step0">
+                            <div class="step-circle">1</div>
+                            <div class="step-label">Order Received</div>
+                        </div>
+                        <div class="status-step" id="step1">
+                            <div class="step-circle">2</div>
+                            <div class="step-label">Designing</div>
+                        </div>
+                        <div class="status-step" id="step2">
+                            <div class="step-circle">3</div>
+                            <div class="step-label">Developing</div>
+                        </div>
+                        <div class="status-step" id="step3">
+                            <div class="step-circle">✓</div>
+                            <div class="step-label">Completed</div>
+                        </div>
+                    </div>
+
+                    <!-- Live Preview Banner (shown when previewUrl is set) -->
+                    <div id="previewBanner" style="display:none; margin: 1.2rem 0; padding: 1rem 1.5rem; background: rgba(124,58,237,0.1); border: 1.5px solid rgba(124,58,237,0.4); border-radius: 12px; display: none; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+                        <div>
+                            <p style="color: var(--accent-purple); font-weight: 700; margin-bottom: 0.2rem;">👁️ Preview Available!</p>
+                            <p style="color: var(--text-secondary); font-size: 0.88rem;">Your design preview is ready. Take a look before we proceed.</p>
+                        </div>
+                        <button id="previewBtn" onclick="openPreview(window.currentPreviewUrl)" style="padding: 0.7rem 1.8rem; background: linear-gradient(135deg, var(--accent-purple), #9333ea); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; white-space: nowrap;">
+                            👁️ Open Preview
+                        </button>
+                    </div>
+
+                    <!-- Payment Section -->
+                    <div class="payment-section" id="paymentSection">
+                        <h3>📱 Complete Payment via UPI</h3>
+                        <p>Your website is ready! Choose a payment method below to pay securely and unlock your website files.</p>
+
+                        <!-- Amount Box -->
+                        <div class="amount-box">
+                            <p>Amount to Pay:</p>
+                            <div class="amount" id="totalAmount">₹5,000</div>
+                        </div>
+
+                        <!-- QR Code -->
+                        <div id="qrCodeContainer" style="margin: 1.5rem 0;">
+                            <div style="background: white; border-radius: 16px; padding: 1.2rem; display: inline-block; box-shadow: 0 0 30px rgba(0,212,255,0.3);">
+                                <img id="qrCodeImg" src="" alt="UPI QR Code" style="width: 200px; height: 200px; display: block;">
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.8rem;">📲 Scan with any UPI app</p>
+                            <div style="margin-top: 0.8rem; padding: 0.6rem 1rem; background: rgba(0,212,255,0.08); border-radius: 8px; display: inline-block;">
+                                <span id="displayUpiId" style="color: var(--accent-cyan); font-weight: 600; font-size: 0.9rem;">UPI ID: 9798642195@fam</span>
+                            </div>
+                        </div>
+
+                        <!-- Pay Via App Buttons -->
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem; font-weight: 600;">⚡ Or tap to pay directly:</p>
+                        <div class="upi-app-buttons">
+                            <a id="gpayBtn" href="#" onclick="openUpiApp('gpay'); return false;" class="upi-app-btn gpay-btn">
+                                <img src="Googlepay.png" alt="GPay" style="height:28px; margin-right:8px; vertical-align:middle;">
+                                Google Pay
+                            </a>
+                            <a id="phonepeBtn" href="#" onclick="openUpiApp('phonepe'); return false;" class="upi-app-btn phonepe-btn">
+                                <img src="phonepay.png" alt="PhonePe" style="height:28px; margin-right:8px; vertical-align:middle;">
+                                PhonePe
+                            </a>
+                            <a id="paytmBtn" href="#" onclick="openUpiApp('paytm'); return false;" class="upi-app-btn paytm-btn">
+                                <img src="paytm.png" alt="Paytm" style="height:28px; margin-right:8px; vertical-align:middle;">
+                                Paytm
+                            </a>
+                        </div>
+
+                        <!-- Custom UPI ID Input -->
+                        <div style="margin: 1.5rem 0; padding: 1.2rem; background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.2); border-radius: 12px; text-align: left;">
+                            <label style="color: var(--accent-cyan); font-size: 0.9rem; font-weight: 700; margin-bottom: 0.6rem; display: block;">🔗 Pay with upi id (Optional)</label>
+                            <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center;">
+                                <input type="text" id="customUpiInput" placeholder="Enter UPI ID  e.g. seller@upi" style="flex:1; min-width:180px; padding:0.65rem 0.9rem; font-size:0.9rem;">
+                                <button onclick="applyCustomUpi()" style="padding:0.65rem 1.2rem; background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple)); color:white; border:none; border-radius:8px; font-weight:700; cursor:pointer; white-space:nowrap;">Pay</button>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.78rem; margin-top: 0.5rem;">⚠️ Only use the when you dont have any option of app in your device.</p>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="payment-buttons" style="margin-top: 1rem;">
+                            <button class="btn-payment btn-payment-primary" id="paidBtn" onclick="markAsPaid()">✅ I've Paid</button>
+                            <button class="btn-payment" style="background: rgba(239,68,68,0.15); color: #fca5a5; border: 1px solid rgba(239,68,68,0.4);" onclick="cancelPaymentUI()">❌ Cancel</button>
+                        </div>
+                    </div>
+
+                    <!-- Pending Confirmation Section -->
+                    <div class="pending-section" id="pendingSection">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">⏳</div>
+                        <h3>Payment Under Review</h3>
+                        <p>Thank you for your payment! Our team will verify your transaction within <strong style="color: var(--warning);">24 hours</strong>.</p>
+                        <p style="margin-top: 0.8rem; font-size: 0.9rem;">You'll be notified once confirmed. Your download will be available here automatically.</p>
+                        <div style="margin-top: 1.2rem; padding: 0.8rem 1.5rem; background: rgba(245,158,11,0.1); border-radius: 10px; display: inline-block; border: 1px solid rgba(245,158,11,0.3);">
+                            <span style="color: var(--warning);">🕐 Checking back? Refresh or re-enter your Order ID to see updated status.</span>
+                        </div>
+                    </div>
+
+                    <!-- Completed Section -->
+                    <div class="completed-section" id="completedSection">
+                        <h3>🎉 Payment Confirmed!</h3>
+                        <p>Your website files are ready. Download them now and launch your digital empire!</p>
+                        <div class="payment-buttons">
+                            <button class="btn-payment btn-download" onclick="downloadWebsite()">📥 Download Website Files</button>
+                            <button class="btn-payment" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: white;" onclick="viewWebsite()">👁️ View Live Website</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Orders -->
+                <div id="myOrders" style="display: none; margin-top: 3rem;">
+                    <h3 style="color: var(--accent-cyan); margin-bottom: 1.5rem; font-size: 1.3rem;">📋 My Orders</h3>
+                    <div id="noOrders" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                        <p style="font-size: 1.1rem;">No orders yet. Start by placing your first order! 🚀</p>
+                    </div>
+                    <div class="orders-list" id="ordersContainer"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Codivra</h4>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Premium web development solutions for modern businesses.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#categories">Categories</a>
+                <a href="#order">Place Order</a>
+                <a href="#tracker">Track Order</a>
+                <a href="portfolio.html">portfolio</a>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <a href="/cdn-cgi/l/email-protection#295b48404748454c5b5d191e1e694e44484045074a4644">Email Support</a>
+                <a href="documentation.html">Documentation</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+        </div>
+        <div class="footer-botton">
+            <p>© 2024 Codivra. All rights reserved. | Premium Website Development Solutions</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Welcome to Codivra</h2>
+                <button class="close-btn" onclick="closeLoginModal()">✕</button>
+            </div>
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab('login', event)">Sign In</button>
+                <button class="tab-btn" onclick="switchTab('signup', event)">Create Account</button>
+            </div>
+            <div id="loginTab" class="tab-content active">
+                <form id="loginForm">
+                    <div class="auth-message" id="loginMsg"></div>
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; padding: 0.8rem;">Sign In</button>
+                </form>
+            </div>
+            <div id="signupTab" class="tab-content">
+                <form id="signupForm">
+                    <div class="auth-message" id="signupMsg"></div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" placeholder="Create password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupConfirm">Confirm Password</label>
+                        <input type="password" id="signupConfirm" placeholder="Confirm password" required>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; padding: 0.8rem;">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seller Admin Panel Modal -->
+    <div id="sellerModal">
+        <div class="seller-modal-box">
+            <button onclick="closeSellerPanel()" style="position:absolute;top:1.2rem;right:1.2rem;background:rgba(255,255,255,0.08);border:none;color:var(--text-secondary);width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;transition:all 0.2s ease;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">✕</button>
+
+            <h2>⚙️ Seller Payment Panel</h2>
+            <p class="subtitle">Set your UPI ID — buyers will pay directly to this account and you'll receive instant notifications.</p>
+
+            <!-- Current Active UPI -->
+            <div class="seller-upi-current">
+                <div>
+                    <span class="label">Active UPI ID</span>
+                    <span class="value" id="sellerCurrentUpi">Loading...</span>
+                </div>
+                <div class="upi-status-dot" id="sellerStatusDot" style="background:#6b7280;box-shadow:none;"></div>
+            </div>
+
+            <!-- Update UPI ID -->
+            <label style="color:var(--text-secondary);font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.5rem;">Update UPI ID</label>
+            <div class="seller-input-row">
+                <input type="text" id="sellerUpiInput" placeholder="yourname@upi  or  9876543210@paytm" autocomplete="off">
+                <button class="btn-seller-save" id="sellerSaveBtn" onclick="saveSellerUpi()">💾 Save</button>
+            </div>
+            <div class="seller-save-msg" id="sellerSaveMsg"></div>
+
+            <!-- Info Note -->
+            <div class="seller-info-note">
+                <strong>How it works:</strong><br>
+                1. Enter your UPI ID (e.g. <code style="color:#fbbf24">9876543210@paytm</code> or <code style="color:#fbbf24">name@okaxis</code>)<br>
+                2. Click <strong>Save</strong> — it's stored securely in Firebase<br>
+                3. When a buyer pays, the QR code &amp; GPay/PhonePe/Paytm links automatically point to <strong>your</strong> UPI ID<br>
+                4. You receive an <strong>instant bank notification</strong> the moment payment arrives ✅
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase & UPI Payment Script -->
+
+    <!-- Plain script for UI functions (must NOT be type=module so onclick attrs work) -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+            // clear messages
+            ['loginMsg','signupMsg'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { el.className = 'auth-message'; el.textContent = ''; }
+            });
+        }
+        function switchTab(tab, e) {
+            e.preventDefault();
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab + 'Tab').classList.add('active');
+            e.target.classList.add('active');
+        }
+        function scrollTo(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+        // Close modal when clicking backdrop
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('loginModal').addEventListener('click', function(e) {
+                if (e.target === this) closeLoginModal();
+            });
+        });
+    </script>
+
+    <!-- Firebase Compat SDK - no type=module, works globally -->
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhFr5Iyf7ta7kYAsFyvh6GKhv3fVWkp9E",
+            authDomain: "chat-bot-f4f63.firebaseapp.com",
+            databaseURL: "https://chat-bot-f4f63-default-rtdb.firebaseio.com",
+            projectId: "chat-bot-f4f63",
+            storageBucket: "chat-bot-f4f63.firebasestorage.app",
+            messagingSenderId: "1022141991241",
+            appId: "1:1022141991241:web:c5ada82b21e5227d01f298"
+        };
+
+        /* ──────────────────────────────────────────────────────────
+           FIREBASE DATABASE RULES — add this to your Firebase console:
+           {
+             "rules": {
+               "settings": {
+                 "sellerUpi": {
+                   ".read":  true,
+                   ".write": "auth != null && (auth.token.email == 'codivra@gmail.com' || auth.token.email == 'admin@codivra.com')"
+                 }
+               },
+               "users": {
+                 "$uid": {
+                   ".read":  "auth != null && auth.uid == $uid",
+                   ".write": "auth != null && auth.uid == $uid"
+                 }
+               }
+             }
+           }
+        ────────────────────────────────────────────────────────── */
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        // Default fallback UPI (used only if Firebase has nothing saved yet)
+        const UPI_ID_DEFAULT  = '9798642195@fam';
+        const UPI_NAME_DEFAULT = 'Codivra';
+
+        // ── Admin emails (add yours here) ──────────────────────────
+        const ADMIN_EMAILS = ['nivaaroma@gmail.com', 'admin@codivra.com'];
+
+        let currentUser        = null;
+        let currentOrderRefPath = null;
+        let _liveSellerUpi     = null;   // populated from Firebase realtime
+        let _liveSellerName    = null;
+
+        // ── Listen to seller UPI in realtime ─────────────────────
+        db.ref('settings/sellerUpi').on('value', (snap) => {
+            if (snap.exists()) {
+                const d = snap.val();
+                _liveSellerUpi  = d.upiId   || UPI_ID_DEFAULT;
+                _liveSellerName = d.upiName  || UPI_NAME_DEFAULT;
+            } else {
+                _liveSellerUpi  = UPI_ID_DEFAULT;
+                _liveSellerName = UPI_NAME_DEFAULT;
+            }
+            // If payment section is already visible, refresh the QR live
+            if (document.getElementById('paymentSection').style.display === 'block' && window._activeAmount) {
+                _renderPaymentUI(_liveSellerUpi, _liveSellerName, window._activeAmount, window._activeOrderId);
+            }
+            // Refresh seller panel display if open
+            const el = document.getElementById('sellerCurrentUpi');
+            if (el) {
+                el.textContent = _liveSellerUpi;
+                const dot = document.getElementById('sellerStatusDot');
+                if (dot) { dot.style.background='#10b981'; dot.style.boxShadow='0 0 8px #10b981'; }
+            }
+        });
+
+        // ── Auth State ───────────────────────────────────────────────
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('loginBtn').classList.add('hidden');
+                const userInfo = document.getElementById('userInfo');
+                userInfo.classList.remove('hidden');
+                userInfo.style.display = 'flex';
+                document.getElementById('userEmail').textContent = user.email;
+                document.getElementById('authRequired').style.display = 'none';
+                document.getElementById('orderForm').style.display = 'block';
+                document.getElementById('myOrders').style.display = 'block';
+                loadOrders();
+                // Show Seller Panel button for admins
+                if (ADMIN_EMAILS.includes(user.email)) {
+                    document.getElementById('sellerPanelBtn').style.display = 'inline-block';
+                }
+            } else {
+                currentUser = null;
+                document.getElementById('loginBtn').classList.remove('hidden');
+                const userInfo = document.getElementById('userInfo');
+                userInfo.classList.add('hidden');
+                userInfo.style.display = 'none';
+                document.getElementById('sellerPanelBtn').style.display = 'none';
+                document.getElementById('authRequired').style.display = 'block';
+                document.getElementById('orderForm').style.display = 'none';
+                document.getElementById('myOrders').style.display = 'none';
+            }
+        });
+
+        // ── Seller Panel Functions ────────────────────────────────
+        function openSellerPanel() {
+            document.getElementById('sellerModal').classList.add('active');
+            document.getElementById('sellerCurrentUpi').textContent = _liveSellerUpi || 'Not set yet';
+            document.getElementById('sellerUpiInput').value = _liveSellerUpi || '';
+            document.getElementById('sellerSaveMsg').className = 'seller-save-msg';
+            const dot = document.getElementById('sellerStatusDot');
+            if (_liveSellerUpi) { dot.style.background='#10b981'; dot.style.boxShadow='0 0 8px #10b981'; }
+        }
+
+        function closeSellerPanel() {
+            document.getElementById('sellerModal').classList.remove('active');
+        }
+
+        async function saveSellerUpi() {
+            const val = document.getElementById('sellerUpiInput').value.trim();
+            const msgEl = document.getElementById('sellerSaveMsg');
+            const btn   = document.getElementById('sellerSaveBtn');
+            msgEl.className = 'seller-save-msg';
+
+            if (!val) { msgEl.textContent = '⚠️ Please enter a UPI ID.'; msgEl.className = 'seller-save-msg err'; return; }
+            if (!val.includes('@')) { msgEl.textContent = '❌ Invalid UPI ID — must contain "@" (e.g. name@upi)'; msgEl.className = 'seller-save-msg err'; return; }
+            if (!currentUser || !ADMIN_EMAILS.includes(currentUser.email)) {
+                msgEl.textContent = '❌ Access denied. Admin only.';
+                msgEl.className = 'seller-save-msg err'; return;
+            }
+
+            btn.disabled = true; btn.textContent = '⏳ Saving...';
+            try {
+                await db.ref('settings/sellerUpi').set({
+                    upiId:     val,
+                    upiName:   val.split('@')[0],
+                    updatedAt: new Date().toISOString(),
+                    updatedBy: currentUser.email
+                });
+                msgEl.textContent = '✅ UPI ID saved! All buyer payments will now go to: ' + val;
+                msgEl.className = 'seller-save-msg ok';
+                document.getElementById('sellerCurrentUpi').textContent = val;
+            } catch(err) {
+                msgEl.textContent = '❌ Failed to save. Check Firebase rules allow write to settings/sellerUpi.';
+                msgEl.className = 'seller-save-msg err';
+            } finally {
+                btn.disabled = false; btn.textContent = '💾 Save';
+            }
+        }
+
+        // Close seller panel on backdrop click
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('sellerModal').addEventListener('click', function(e) {
+                if (e.target === this) closeSellerPanel();
+            });
+        });
+
+   
+        // ── Login / Signup ───────────────────────────────────────────
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button[type="submit"]');
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Signing in...';
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                closeLoginModal();
+            } catch (err) {
+                const msgs = {
+                    'auth/user-not-found': '❌ No account found with this email.',
+                    'auth/wrong-password': '❌ Incorrect password.',
+                    'auth/invalid-email': '❌ Invalid email address.',
+                    'auth/too-many-requests': '❌ Too many attempts. Try later.',
+                    'auth/invalid-credential': '❌ Wrong email or password.',
+                    'auth/operation-not-allowed': '❌ Email login not enabled in Firebase.'
+                };
+                showMsg('loginMsg', msgs[err.code] || '❌ ' + err.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Sign In';
+            }
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button[type="submit"]');
+            const email = document.getElementById('signupEmail').value.trim();
+            const pwd = document.getElementById('signupPassword').value;
+            const conf = document.getElementById('signupConfirm').value;
+            if (pwd !== conf) { showMsg('signupMsg', '❌ Passwords do not match', 'error'); return; }
+            if (pwd.length < 6) { showMsg('signupMsg', '❌ Password must be at least 6 characters', 'error'); return; }
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Creating account...';
+            try {
+                await auth.createUserWithEmailAndPassword(email, pwd);
+                showMsg('signupMsg', '✅ Account created! Signing you in...', 'success');
+                setTimeout(() => closeLoginModal(), 1200);
+            } catch (err) {
+                const msgs = {
+                    'auth/email-already-in-use': '❌ Email already registered. Sign in instead.',
+                    'auth/invalid-email': '❌ Invalid email address.',
+                    'auth/weak-password': '❌ Password is too weak (min 6 chars).'
+                };
+                showMsg('signupMsg', msgs[err.code] || '❌ ' + err.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Create Account';
+            }
+        });
+
+        function logoutUser() { auth.signOut(); }
+
+        function showMsg(id, msg, type) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.textContent = msg;
+            el.className = 'auth-message ' + type + ' show';
+            if (type === 'success') setTimeout(() => el.classList.remove('show'), 3000);
+        }
+
+        // ── Budget Slider ────────────────────────────────────────────
+        document.getElementById('budget').addEventListener('input', function() {
+            document.getElementById('budgetValue').textContent = '₹' + parseInt(this.value).toLocaleString('en-IN');
+        });
+
+        // ── Submit Order ─────────────────────────────────────────────
+        document.getElementById('orderForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (!currentUser) { showMsg('formMsg', '❌ Please sign in first', 'error'); return; }
+            const btn = this.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Submitting...';
+            const budget = parseInt(document.getElementById('budget').value);
+            const data = {
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                category: document.getElementById('category').value,
+                description: document.getElementById('description').value.trim(),
+                budget: budget,
+                submittedAt: new Date().toISOString(),
+                status: 'Order Received',
+                paymentStatus: 'Pending',
+                websiteUrl: null,
+                previewUrl: null
+            };
+            try {
+                const newRef = db.ref('users/' + currentUser.uid + '/orders').push();
+                data.orderId = newRef.key;
+                await newRef.set(data);
+                showMsg('formMsg', '✅ Order submitted! Your ID: ' + newRef.key, 'success');
+                e.target.reset();
+                document.getElementById('budgetValue').textContent = '₹5,000';
+            } catch (err) {
+                showMsg('formMsg', '❌ Error: ' + err.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Submit Order';
+            }
+        });
+
+        // ── Category Select ──────────────────────────────────────────
+        function selectCategory(cat) {
+            document.getElementById('category').value = cat;
+            document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ── Load Orders ──────────────────────────────────────────────
+        function loadOrders() {
+            if (!currentUser) return;
+            db.ref('users/' + currentUser.uid + '/orders').on('value', (snap) => {
+                const container = document.getElementById('ordersContainer');
+                const noOrders = document.getElementById('noOrders');
+                if (snap.exists()) {
+                    const orders = snap.val();
+                    container.innerHTML = Object.keys(orders).map(id => {
+                        const order = orders[id];
+                        const progress = { 'Order Received': 25, 'Designing': 50, 'Developing': 75, 'Completed': 100 }[order.status] || 0;
+                        const isCompleted = order.status === 'Completed';
+                        const isCancelled = order.status === 'Cancelled';
+                        const isPaid = order.paymentStatus === 'Paid';
+                        const isPendingConf = order.paymentStatus === 'PendingConfirmation';
+                        const canCancel = ['Order Received', 'Designing'].includes(order.status);
+
+                        return `
+                        <div class="order-card ${isCancelled ? 'order-cancelled' : ''}">
+                            <div class="order-header">
+                                <div class="order-id">ID: ${id.substring(0, 12)}...</div>
+                                <span class="order-status status-${order.status.toLowerCase().replace(/\s+/g,'-')}">${isCancelled ? '🚫 ' : ''}${order.status}</span>
+                            </div>
+                            <div class="order-info">
+                                <p><strong>Category:</strong> ${order.category}</p>
+                                <p><strong>Budget:</strong> ₹${order.budget.toLocaleString('en-IN')}</p>
+                                <p><strong>Progress:</strong> ${progress}%</p>
+                                <p><strong>Payment:</strong> <span style="color:${isPaid?'var(--success)':'var(--warning)'};">${isPendingConf?'⏳ Confirming...':(order.paymentStatus||'Pending')}</span></p>
+                            </div>
+                            ${isCancelled ? `
+                                <div style="margin-top:1rem;padding:0.8rem;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.2);text-align:center;">
+                                    <span style="color:#fca5a5;font-size:0.9rem;">🚫 Cancelled${order.cancelledAt?' on '+new Date(order.cancelledAt).toLocaleDateString('en-IN'):''}</span>
+                                </div>
+                            ` : isCompleted ? `
+                                <div class="order-actions">
+                                    ${isPaid ? `
+                                        <button class="btn-download" onclick="downloadWebsite('${order.websiteUrl||''}')">📥 Download</button>
+                                        <button class="btn-download" style="background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple));color:white;" onclick="openPreview('${order.previewUrl||order.websiteUrl||''}')">👁️ Preview</button>
+                                    ` : isPendingConf ? `
+                                        <button class="btn-primary" style="width:100%;margin-top:1rem;opacity:0.7;cursor:default;">⏳ Awaiting Payment Confirmation (24hrs)</button>
+                                    ` : `
+                                        <button class="btn-download" style="background:linear-gradient(135deg,var(--warning),#fbbf24);" onclick="preparePayment('${id}',${order.budget},'${order.websiteUrl||''}')">📱 Pay Now</button>
+                                    `}
+                                </div>
+                            ` : `
+                                <div class="order-actions">
+                                    <button class="btn-primary" style="flex:2;" onclick="trackById('${id}')">📍 Track Order</button>
+                                    ${order.previewUrl ? `<button class="btn-preview-card" onclick="openPreview('${order.previewUrl}')">👁️ Preview</button>` : ''}
+                                    ${canCancel ? `<button class="btn-cancel-order" onclick="cancelOrder('${id}')">🚫 Cancel</button>` : ''}
+                                </div>
+                            `}
+                        </div>`;
+                    }).join('');
+                    noOrders.style.display = 'none';
+                } else {
+                    container.innerHTML = '';
+                    noOrders.style.display = 'block';
+                }
+            });
+        }
+
+        // ── Track Order ──────────────────────────────────────────────
+        function trackOrder() {
+            const id = document.getElementById('trackingId').value.trim();
+            if (!id || !currentUser) { alert('🔍 Enter your Order ID and make sure you are signed in.'); return; }
+            db.ref('users/' + currentUser.uid + '/orders/' + id).on('value', (snap) => {
+                if (snap.exists()) showStatus(snap.val(), id);
+                else alert('❌ Order not found. Check the ID.');
+            });
+        }
+
+        function trackById(id) {
+            document.getElementById('trackingId').value = id;
+            document.getElementById('tracker').scrollIntoView({ behavior: 'smooth' });
+            trackOrder();
+        }
+
+        function showStatus(order, orderId) {
+            const steps = { 'Order Received': 0, 'Designing': 1, 'Developing': 2, 'Completed': 3 };
+            const current = steps[order.status] || 0;
+
+            document.getElementById('statusDisplay').style.display = 'block';
+            document.getElementById('displayId').textContent = order.orderId || orderId;
+            document.getElementById('displayStatus').textContent = order.status;
+
+            for (let i = 0; i < 4; i++) {
+                const step = document.getElementById('step' + i);
+                step.classList.toggle('active', i <= current);
+            }
+
+            const paymentSection = document.getElementById('paymentSection');
+            const pendingSection = document.getElementById('pendingSection');
+            const completedSection = document.getElementById('completedSection');
+            const previewBanner = document.getElementById('previewBanner');
+
+            paymentSection.style.display = 'none';
+            pendingSection.style.display = 'none';
+            completedSection.style.display = 'none';
+            completedSection.classList.remove('show');
+            previewBanner.style.display = 'none';
+
+            if (order.previewUrl && order.status !== 'Cancelled') {
+                window.currentPreviewUrl = order.previewUrl;
+                previewBanner.style.display = 'flex';
+            }
+
+            if (order.status === 'Completed') {
+                window.currentWebsiteUrl = order.websiteUrl;
+                window.currentOrderBudget = order.budget;
+                window.currentOrderId = orderId;
+                window.currentOrderRefPath = 'users/' + currentUser.uid + '/orders/' + orderId;
+                document.getElementById('totalAmount').textContent = '₹' + order.budget.toLocaleString('en-IN');
+
+                if (order.paymentStatus === 'Paid') {
+                    completedSection.classList.add('show');
+                    completedSection.style.display = 'block';
+                } else if (order.paymentStatus === 'PendingConfirmation') {
+                    pendingSection.style.display = 'block';
+                } else {
+                    paymentSection.style.display = 'block';
+                    generateQRCode(order.budget, orderId);
+                }
+            }
+        }
+
+        // Tracks currently active UPI ID (default or custom)
+        window._activeUpiId   = null;
+        window._activeUpiName = null;
+        window._activeAmount  = null;
+        window._activeOrderId = null;
+
+        function buildUpiString(pa, pn, amount, orderId) {
+            return 'upi://pay?pa=' + encodeURIComponent(pa)
+                 + '&pn=' + encodeURIComponent(pn)
+                 + '&am=' + amount
+                 + '&cu=INR'
+                 + '&tn=' + encodeURIComponent('Codivra Order ' + orderId);
+        }
+
+        function generateQRCode(amount, orderId) {
+            window._activeAmount  = amount;
+            window._activeOrderId = orderId;
+            // Use live Firebase UPI ID (falls back to default if not yet loaded)
+            const pa = _liveSellerUpi  || UPI_ID_DEFAULT;
+            const pn = _liveSellerName || UPI_NAME_DEFAULT;
+            _renderPaymentUI(pa, pn, amount, orderId);
+        }
+
+        function _renderPaymentUI(pa, pn, amount, orderId) {
+            const upiStr = buildUpiString(pa, pn, amount, orderId);
+
+            // QR Code
+            document.getElementById('qrCodeImg').src =
+                'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='
+                + encodeURIComponent(upiStr)
+                + '&bgcolor=ffffff&color=0a0e27&margin=10';
+
+            // Show active UPI ID
+            document.getElementById('displayUpiId').textContent = 'UPI ID: ' + pa;
+
+            // Store for openUpiApp()
+            window._currentUpiStr = upiStr;
+            window._currentUpiPa  = pa;
+            window._currentUpiPn  = pn;
+            window._currentAmount = amount;
+            window._currentOrderId = orderId;
+        }
+
+        function openUpiApp(app) {
+            const pa    = window._currentUpiPa  || UPI_ID;
+            const pn    = window._currentUpiPn  || UPI_NAME;
+            const am    = window._currentAmount  || '';
+            const tn    = encodeURIComponent('Codivra Order ' + (window._currentOrderId || ''));
+            const base  = 'pa=' + encodeURIComponent(pa)
+                        + '&pn=' + encodeURIComponent(pn)
+                        + '&am=' + am
+                        + '&cu=INR&tn=' + tn;
+
+            const schemes = {
+                gpay:    'tez://upi/pay?'     + base,
+                phonepe: 'phonepe://pay?'     + base,
+                paytm:   'paytmmp://upi/pay?' + base
+            };
+
+            const link = schemes[app];
+            if (!link) return;
+
+            // Try to open the native app; fall back to universal UPI intent
+            const tempA = document.createElement('a');
+            tempA.href = link;
+            document.body.appendChild(tempA);
+            tempA.click();
+            document.body.removeChild(tempA);
+
+            // Fallback: if on Android/iOS and app doesn't open, open Play/App Store
+            setTimeout(() => {
+                const stores = {
+                    gpay:    'https://play.google.com/store/apps/details?id=com.google.android.apps.nbu.paisa.user',
+                    phonepe: 'https://play.google.com/store/apps/details?id=com.phonepe.app',
+                    paytm:   'https://play.google.com/store/apps/details?id=net.one97.paytm'
+                };
+                // Only open store if page is still visible (app not launched)
+                if (document.visibilityState === 'visible') {
+                    // Don't auto-redirect; just silently fail — user stays on page
+                }
+            }, 2500);
+        }
+function applyCustomUpi() {
+    const inputEl = document.getElementById('customUpiInput');
+    const buyerUpiId = inputEl.value.trim(); 
+    
+    // 1. Validate the buyer's input
+    if (!buyerUpiId) { alert('⚠️ Please enter your UPI ID first.'); return; }
+    if (!buyerUpiId.includes('@')) { alert('❌ Invalid UPI ID. It must contain "@" e.g. name@upi'); return; }
+
+    const amount  = window._activeAmount  || window.currentOrderBudget;
+    const orderId = window._activeOrderId || window.currentOrderId;
+
+    // 2. Your FamPay receiving details
+    const myUpiId = "9798642195@fam";
+    const myName = "Mohit"; 
+
+    // Show a loading state to the user
+    showInlineMessage(inputEl, '⏳ Opening your UPI app securely...', '#fbbf24');
+
+    try {
+        // 3. Format the amount to 2 decimal places (e.g., 150.00)
+        const formattedAmount = Number(amount).toFixed(2);
+        
+        // 4. Create the Intent Link pointing directly to your FamPay
+        const upiIntentLink = `upi://pay?pa=${myUpiId}&pn=${myName}&am=${formattedAmount}&cu=INR&tn=Order_${orderId}`;
+
+        // 5. Detect if the buyer is on a mobile phone
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            
+            // --- FIREBASE SAVE SPOT ---
+            // You can add your Firebase Realtime Database code right here to save:
+            // { orderId: orderId, buyerUpi: buyerUpiId, amount: amount, status: "pending" }
+            // --------------------------
+
+            // Tell the user what's happening
+            showInlineMessage(inputEl, `✅ Opening payment app for ₹${formattedAmount}...`, '#6ee7b7');
+            
+            // This is the magic line that actually opens their UPI app!
+            window.setTimeout(() => {
+                window.location.href = upiIntentLink;
+            }, 800); // Tiny delay so they can read the success message
+
+        } else {
+            // Intent links don't launch apps on computer screens
+            showInlineMessage(inputEl, `⚠️ Please open this website on your mobile phone to use Tap-to-Pay.`, '#fbbf24');
+        }
+
+    } catch (error) {
+        showInlineMessage(inputEl, '❌ Error starting payment. Please try again.', '#ef4444');
+    }
+}
+
+// Helper function to handle the inline messages cleanly (same as before)
+function showInlineMessage(inputEl, text, color) {
+    const inputRow = inputEl.closest('div').parentElement;
+    let existingNote = inputRow.querySelector('.custom-upi-ok');
+    
+    if (!existingNote) {
+        existingNote = document.createElement('p');
+        existingNote.className = 'custom-upi-ok';
+        existingNote.style.cssText = `color:${color};font-size:0.82rem;margin-top:0.4rem;font-weight:600;`;
+        inputRow.appendChild(existingNote);
+    } else {
+        existingNote.style.color = color;
+    }
+    
+    existingNote.textContent = text;
+}
+
+        // ── Payment Actions ──────────────────────────────────────────
+        function preparePayment(orderId, amount, websiteUrl) {
+            if (!currentUser) { alert('❌ Please sign in'); return; }
+            window.currentOrderRefPath = 'users/' + currentUser.uid + '/orders/' + orderId;
+            window.currentPaymentOrderId = orderId;
+            window.currentPaymentAmount = amount;
+            window.currentPaymentWebsiteUrl = websiteUrl;
+            document.getElementById('trackingId').value = orderId;
+            document.getElementById('tracker').scrollIntoView({ behavior: 'smooth' });
+            trackOrder();
+        }
+
+        async function markAsPaid() {
+            if (!window.currentOrderRefPath || !currentUser) return;
+            const btn = document.getElementById('paidBtn');
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Submitting...';
+            try {
+                await db.ref(window.currentOrderRefPath).update({
+                    paymentStatus: 'PendingConfirmation',
+                    paymentSubmittedAt: new Date().toISOString()
+                });
+                document.getElementById('paymentSection').style.display = 'none';
+                document.getElementById('pendingSection').style.display = 'block';
+            } catch (err) {
+                alert('❌ Error. Please try again.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = "✅ I've Paid";
+            }
+        }
+
+        function cancelPaymentUI() {
+            document.getElementById('paymentSection').style.display = 'none';
+            document.getElementById('statusDisplay').style.display = 'none';
+        }
+
+        async function cancelOrder(orderId) {
+            if (!currentUser) return;
+            if (!confirm('⚠️ Cancel this order? This cannot be undone.')) return;
+            try {
+                await db.ref('users/' + currentUser.uid + '/orders/' + orderId).update({
+                    status: 'Cancelled',
+                    cancelledAt: new Date().toISOString()
+                });
+            } catch (err) {
+                alert('❌ Failed to cancel. Try again.');
+            }
+        }
+
+        function downloadWebsite(url) {
+            const u = url || window.currentWebsiteUrl;
+            if (!u) { alert('❌ Download not available yet'); return; }
+            const a = document.createElement('a');
+            a.href = u; a.download = 'website.zip';
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        }
+
+        function openPreview(url) {
+            const u = url || window.currentPreviewUrl || window.currentWebsiteUrl;
+            if (!u) { alert('❌ Preview not available yet'); return; }
+            window.open(u, '_blank');
+        }
+    </script>
+</body>
+</html>

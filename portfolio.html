@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codivra - Portfolio & Case Studies</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary-dark: #0a0e27;
+            --primary-light: #1a1f3a;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #7c3aed;
+            --accent-pink: #ff006e;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #a8b5d1;
+            --card-bg: rgba(26, 31, 58, 0.6);
+            --card-border: rgba(0, 212, 255, 0.1);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1629 100%);
+            color: var(--text-primary);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 20%, rgba(255, 0, 110, 0.02) 0%, transparent 50%);
+            pointer-events: none; z-index: 0;
+        }
+
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 999;
+            backdrop-filter: blur(10px); background: rgba(10, 14, 39, 0.95);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            padding: 1.2rem 2rem; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+
+        .logo {
+            font-size: 1.8rem; font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-family: 'Playfair Display', serif; text-decoration: none;
+        }
+
+        nav ul { display: flex; list-style: none; gap: 2.5rem; align-items: center; }
+        nav a { text-decoration: none; color: var(--text-secondary); font-weight: 500; font-size: 0.95rem; transition: all 0.3s ease; position: relative; }
+        nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); transition: width 0.3s ease; }
+        nav a:hover::after, nav a.active::after { width: 100%; }
+        nav a:hover, nav a.active { color: var(--text-primary); }
+
+        .btn-primary {
+            padding: 0.7rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: white; box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2); text-decoration: none; display: inline-block;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(0, 212, 255, 0.3); }
+
+        .btn-admin {
+            padding: 0.7rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f59e0b, #d97706); color: white; display: none; margin-right: 1rem;
+        }
+        .btn-admin:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); }
+
+        .portfolio-hero { margin-top: 80px; padding: 80px 2rem 40px; text-align: center; position: relative; z-index: 1; }
+        .portfolio-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: fadeInUp 0.8s ease both; }
+        .portfolio-hero p { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.6; animation: fadeInUp 0.8s ease 0.2s both; }
+
+        .filters { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin: 2rem auto 4rem; max-width: 900px; padding: 0 2rem; position: relative; z-index: 1; animation: fadeInUp 0.8s ease 0.4s both; }
+        .filter-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-secondary); padding: 0.6rem 1.5rem; border-radius: 30px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; font-family: 'Poppins', sans-serif; }
+        .filter-btn:hover { background: rgba(0, 212, 255, 0.1); border-color: rgba(0, 212, 255, 0.3); color: var(--text-primary); }
+        .filter-btn.active { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: white; border: none; box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3); }
+
+        .portfolio-section { padding: 0 2rem 100px; position: relative; z-index: 1; flex-grow: 1; }
+        .portfolio-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2.5rem; }
+
+        .portfolio-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; backdrop-filter: blur(10px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; flex-direction: column; animation: fadeInUp 0.8s ease 0.6s both; }
+        .portfolio-card:hover { transform: translateY(-10px); border-color: var(--accent-cyan); box-shadow: 0 15px 40px rgba(0, 212, 255, 0.15); }
+        .portfolio-image { width: 100%; height: 220px; background-size: cover; background-position: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); position: relative; overflow: hidden; }
+        .portfolio-image::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, transparent 50%, rgba(10, 14, 39, 0.8) 100%); }
+        .portfolio-card:hover .portfolio-image { transform: scale(1.03); transition: transform 0.5s ease; }
+        .portfolio-content { padding: 1.8rem; flex-grow: 1; display: flex; flex-direction: column; position: relative; z-index: 2; }
+        .portfolio-tags { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        
+        .tag { font-size: 0.75rem; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+        .tag.ecommerce { background: rgba(0, 212, 255, 0.15); color: var(--accent-cyan); }
+        .tag.healthcare { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .tag.gaming { background: rgba(124, 58, 237, 0.15); color: #c4b5fd; }
+        .tag.corporate { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .tag.custom { background: rgba(255, 0, 110, 0.15); color: var(--accent-pink); }
+
+        .portfolio-content h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.8rem; }
+        .portfolio-content p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1; }
+        .portfolio-link { color: var(--accent-cyan); text-decoration: none; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; transition: color 0.3s ease; width: fit-content; }
+        .portfolio-link:hover { color: white; }
+        .portfolio-link::after { content: '→'; transition: transform 0.3s ease; }
+        .portfolio-link:hover::after { transform: translateX(5px); }
+
+        /* Loader */
+        .loader { text-align: center; grid-column: 1 / -1; color: var(--accent-cyan); font-weight: 600; padding: 3rem; }
+
+        /* Admin Modal Styles */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); }
+        .modal.active { display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s ease; }
+        .modal-content { background: var(--primary-light); border: 1px solid var(--card-border); border-radius: 20px; padding: 2rem; width: 95%; max-width: 800px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .modal-header h2 { font-size: 1.5rem; color: var(--accent-cyan); }
+        .close-btn { background: none; border: none; font-size: 1.5rem; color: var(--text-secondary); cursor: pointer; }
+        
+        .admin-form { display: grid; gap: 1rem; margin-bottom: 2rem; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+        .form-group label { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; color: var(--text-secondary); }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 8px; color: var(--text-primary); font-family: 'Poppins', sans-serif; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--accent-cyan); background: rgba(0, 212, 255, 0.05); }
+        
+        .admin-item-list { display: flex; flex-direction: column; gap: 0.8rem; }
+        .admin-list-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .admin-list-item-actions button { padding: 0.4rem 0.8rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.8rem; margin-left: 0.5rem; }
+        .btn-edit { background: rgba(0, 212, 255, 0.2); color: var(--accent-cyan); }
+        .btn-delete { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+
+        .img-1 { background: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59); }
+        .img-2 { background: linear-gradient(45deg, #11998e, #38ef7d); }
+        .img-3 { background: linear-gradient(45deg, #8E2DE2, #4A00E0); }
+        .img-4 { background: linear-gradient(45deg, #FF416C, #FF4B2B); }
+        .img-5 { background: linear-gradient(45deg, #0f0c29, #302b63, #24243e); }
+        .img-6 { background: linear-gradient(45deg, #f12711, #f5af19); }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @media (max-width: 768px) { nav ul { display: none; } .portfolio-grid { grid-template-columns: 1fr; } .modal-content { width: 100%; padding: 1.5rem; } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">⚡ Codivra</a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#categories">Categories</a></li>
+                <li><a href="index.html#tracker">Track Order</a></li>
+                <li><a href="portfolio.html" class="active">Portfolio</a></li>
+            </ul>
+            <div class="auth-section">
+                <button id="adminBtn" class="btn-admin" onclick="openAdminModal()">⚙️ Manage Portfolio</button>
+                <a href="index.html#order" class="btn-primary">Order Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="portfolio-hero">
+        <h1>Our <span style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Digital Masterpieces</span></h1>
+        <p>Explore a selection of our recent projects. From high-converting e-commerce stores to lightning-fast corporate platforms, see what Codivra can build for you.</p>
+    </header>
+
+    <div class="filters">
+        <button class="filter-btn active" onclick="filterSelection('all')">All Works</button>
+        <button class="filter-btn" onclick="filterSelection('ecommerce')">E-Commerce</button>
+        <button class="filter-btn" onclick="filterSelection('healthcare')">Healthcare</button>
+        <button class="filter-btn" onclick="filterSelection('gaming')">eSports & Gaming</button>
+        <button class="filter-btn" onclick="filterSelection('corporate')">Corporate</button>
+        <button class="filter-btn" onclick="filterSelection('custom')">Custom</button>
+    </div>
+
+    <section class="portfolio-section">
+        <div class="portfolio-grid" id="portfolioGrid">
+            <div class="loader">Loading projects from database...</div>
+        </div>
+    </section>
+
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Manage Portfolio Projects</h2>
+                <button class="close-btn" onclick="closeAdminModal()">✕</button>
+            </div>
+            
+            <form id="adminForm" class="admin-form" onsubmit="saveProject(event)">
+                <input type="hidden" id="projectId">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Project Title</label>
+                        <input type="text" id="projTitle" required placeholder="e.g. NeoKicks Store">
+                    </div>
+                    <div class="form-group">
+                        <label>Category Tag</label>
+                        <select id="projCategory" required>
+                            <option value="ecommerce">E-Commerce</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="gaming">Gaming</option>
+                            <option value="corporate">Corporate</option>
+                            <option value="custom">Custom SaaS</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="projDesc" required rows="2" placeholder="Brief project description..."></textarea>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Image Class (img-1 to img-6) or Image URL</label>
+                        <input type="text" id="projImage" required placeholder="e.g. img-1 OR https://...">
+                    </div>
+                    <div class="form-group">
+                        <label>External Link (Optional)</label>
+                        <input type="text" id="projLink" placeholder="https://...">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn-primary" style="flex: 1;" id="saveBtn">Save Project</button>
+                    <button type="button" class="btn-admin" style="display: block; margin: 0; flex: 1; background: rgba(255,255,255,0.1);" onclick="resetForm()">Clear Form</button>
+                </div>
+            </form>
+
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 1.1rem;">Existing Projects</h3>
+            <div class="admin-item-list" id="adminProjectList">
+                </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+
+    <script>
+        // --- 1. Firebase Initialization ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhFr5Iyf7ta7kYAsFyvh6GKhv3fVWkp9E",
+            authDomain: "chat-bot-f4f63.firebaseapp.com",
+            databaseURL: "https://chat-bot-f4f63-default-rtdb.firebaseio.com",
+            projectId: "chat-bot-f4f63",
+            storageBucket: "chat-bot-f4f63.firebasestorage.app",
+            messagingSenderId: "1022141991241",
+            appId: "1:1022141991241:web:c5ada82b21e5227d01f298"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        let isAdmin = false;
+        let allProjects = [];
+        let currentFilter = 'all';
+
+        // --- 2. Auth State checking your DB Admin Node ---
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // Check if user UID exists in the 'admins' node in DB
+                db.ref('admins/' + user.uid).once('value')
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        isAdmin = true;
+                        document.getElementById('adminBtn').style.display = 'inline-block';
+                    } else {
+                        isAdmin = false;
+                        document.getElementById('adminBtn').style.display = 'none';
+                    }
+                }).catch((error) => {
+                    // If permissions block the read, they aren't an admin.
+                    isAdmin = false;
+                    document.getElementById('adminBtn').style.display = 'none';
+                });
+            } else {
+                isAdmin = false;
+                document.getElementById('adminBtn').style.display = 'none';
+            }
+        });
+
+        // --- 3. Fetch Portfolio Items ---
+        db.ref('portfolio/items').on('value', (snapshot) => {
+            allProjects = [];
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                for (let key in data) {
+                    allProjects.push({ id: key, ...data[key] });
+                }
+            }
+            renderPortfolio();
+            if (document.getElementById('adminModal').classList.contains('active')) {
+                renderAdminList();
+            }
+        });
+
+        // --- 4. Render Main Portfolio Grid ---
+        function renderPortfolio() {
+            const grid = document.getElementById('portfolioGrid');
+            grid.innerHTML = '';
+
+            if (allProjects.length === 0) {
+                grid.innerHTML = '<div class="loader">No projects found. Admins can add them above!</div>';
+                return;
+            }
+
+            allProjects.forEach(proj => {
+                let tagClass = proj.category;
+                let tagLabel = proj.category.charAt(0).toUpperCase() + proj.category.slice(1);
+                
+                let imgStyle = proj.image.startsWith('http') 
+                    ? `style="background-image: url('${proj.image}')"` 
+                    : `class="portfolio-image ${proj.image}"`;
+
+                const cardHTML = `
+                    <div class="portfolio-card filter-item ${proj.category}">
+                        <div ${proj.image.startsWith('http') ? `class="portfolio-image" ${imgStyle}` : imgStyle}></div>
+                        <div class="portfolio-content">
+                            <div class="portfolio-tags">
+                                <span class="tag ${tagClass}">${tagLabel}</span>
+                            </div>
+                            <h3>${proj.title}</h3>
+                            <p>${proj.description}</p>
+                            ${proj.link ? `<a href="${proj.link}" target="_blank" class="portfolio-link">View Project</a>` : ''}
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHTML;
+            });
+
+            filterSelection(currentFilter);
+        }
+
+        // --- 5. Filtering Logic ---
+        function filterSelection(c) {
+            currentFilter = c;
+            var x = document.getElementsByClassName("filter-item");
+            if (c == "all") c = "";
+            for (var i = 0; i < x.length; i++) {
+                if (x[i].className.indexOf(c) > -1 || c === "") {
+                    x[i].style.display = "flex";
+                } else {
+                    x[i].style.display = "none";
+                }
+            }
+            var btns = document.getElementsByClassName("filter-btn");
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].classList.remove("active");
+                if (btns[i].getAttribute("onclick").includes(currentFilter || 'all')) {
+                    btns[i].classList.add("active");
+                }
+            }
+        }
+
+        // --- 6. Admin Panel Functions ---
+        function openAdminModal() {
+            document.getElementById('adminModal').classList.add('active');
+            renderAdminList();
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('active');
+            resetForm();
+        }
+
+        function renderAdminList() {
+            const list = document.getElementById('adminProjectList');
+            list.innerHTML = '';
+            allProjects.forEach(proj => {
+                list.innerHTML += `
+                    <div class="admin-list-item">
+                        <div>
+                            <strong style="color:var(--accent-cyan);">${proj.title}</strong>
+                            <span style="color:var(--text-secondary); font-size: 0.8rem; margin-left: 10px;">[${proj.category}]</span>
+                        </div>
+                        <div class="admin-list-item-actions">
+                            <button class="btn-edit" onclick="editProject('${proj.id}')">Edit</button>
+                            <button class="btn-delete" onclick="deleteProject('${proj.id}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        async function saveProject(e) {
+            e.preventDefault();
+            const id = document.getElementById('projectId').value;
+            const data = {
+                title: document.getElementById('projTitle').value.trim(),
+                category: document.getElementById('projCategory').value,
+                description: document.getElementById('projDesc').value.trim(),
+                image: document.getElementById('projImage').value.trim(),
+                link: document.getElementById('projLink').value.trim()
+            };
+
+            const btn = document.getElementById('saveBtn');
+            btn.textContent = 'Saving...';
+            btn.disabled = true;
+
+            try {
+                if (id) {
+                    await db.ref('portfolio/items/' + id).update(data);
+                } else {
+                    await db.ref('portfolio/items').push(data);
+                }
+                resetForm();
+            } catch (err) {
+                alert("Error saving project: " + err.message);
+            } finally {
+                btn.textContent = 'Save Project';
+                btn.disabled = false;
+            }
+        }
+
+        function editProject(id) {
+            const proj = allProjects.find(p => p.id === id);
+            if (!proj) return;
+            document.getElementById('projectId').value = proj.id;
+            document.getElementById('projTitle').value = proj.title;
+            document.getElementById('projCategory').value = proj.category;
+            document.getElementById('projDesc').value = proj.description;
+            document.getElementById('projImage').value = proj.image;
+            document.getElementById('projLink').value = proj.link || '';
+            document.getElementById('saveBtn').textContent = 'Update Project';
+        }
+
+        async function deleteProject(id) {
+            if(confirm("Are you sure you want to delete this project?")) {
+                try {
+                    await db.ref('portfolio/items/' + id).remove();
+                } catch (err) {
+                    alert("Error deleting project: " + err.message);
+                }
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('adminForm').reset();
+            document.getElementById('projectId').value = '';
+            document.getElementById('saveBtn').textContent = 'Save Project';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codivra - FAQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary-dark: #0a0e27; --primary-light: #1a1f3a;
+            --accent-cyan: #00d4ff; --accent-purple: #7c3aed;
+            --text-primary: #ffffff; --text-secondary: #a8b5d1;
+            --card-border: rgba(0, 212, 255, 0.15);
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1629 100%);
+            color: var(--text-primary); min-height: 100vh; display: flex; flex-direction: column;
+        }
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 999;
+            backdrop-filter: blur(10px); background: rgba(10, 14, 39, 0.95);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1); padding: 1.2rem 2rem;
+        }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; font-family: 'Playfair Display', serif;}
+        nav ul { display: flex; list-style: none; gap: 2.5rem; align-items: center; }
+        nav a { text-decoration: none; color: var(--text-secondary); font-weight: 500; font-size: 0.95rem; transition: color 0.3s; }
+        nav a:hover, nav a.active { color: var(--text-primary); }
+        .btn-primary { padding: 0.7rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: white; text-decoration: none;}
+        .btn-admin { padding: 0.7rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; display: none; margin-right: 1rem; }
+
+        /* FAQ Layout */
+        .faq-header { text-align: center; margin-top: 120px; padding: 2rem; }
+        .faq-header h1 { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--accent-cyan); margin-bottom: 1rem; }
+        .faq-header p { color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+        .faq-container { max-width: 800px; margin: 0 auto 100px; padding: 0 2rem; flex-grow: 1; width: 100%; }
+        
+        .faq-item { background: rgba(26, 31, 58, 0.6); border: 1px solid var(--card-border); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s; backdrop-filter: blur(10px); }
+        .faq-item:hover { border-color: rgba(0, 212, 255, 0.4); }
+        
+        .faq-question { padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
+        .faq-question::after { content: '+'; font-size: 1.5rem; color: var(--accent-cyan); transition: transform 0.3s; }
+        
+        .faq-answer { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: all 0.4s ease; color: var(--text-secondary); line-height: 1.6; }
+        
+        .faq-item.active .faq-question::after { transform: rotate(45deg); color: var(--accent-purple); }
+        .faq-item.active .faq-answer { padding-bottom: 1.5rem; max-height: 500px; } /* max-height trick for smooth slide */
+
+        /* Modal Styles */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); }
+        .modal.active { display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: var(--primary-light); border: 1px solid var(--card-border); border-radius: 12px; padding: 2rem; width: 95%; max-width: 700px; max-height: 90vh; overflow-y: auto; }
+        .admin-form input, .admin-form textarea { width: 100%; padding: 0.8rem; margin-top: 0.5rem; margin-bottom: 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); color: white; border-radius: 6px; font-family: 'Poppins', sans-serif;}
+        .admin-list-item { display: flex; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 1rem; margin-bottom: 0.5rem; border-radius: 6px; }
+
+        @media (max-width: 768px) { nav ul { display: none; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">⚡ Codivra</a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="faq.html" class="active">FAQ</a></li>
+                <li><a href="documentation.html">Docs</a></li>
+            </ul>
+            <div>
+                <button id="adminBtn" class="btn-admin" onclick="document.getElementById('adminModal').classList.add('active'); renderAdminList();">⚙️ Manage FAQs</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="faq-header">
+        <h1>Frequently Asked Questions</h1>
+        <p>Everything you need to know about our web development process, pricing, and support. Can't find the answer? Email us directly.</p>
+    </header>
+
+    <main class="faq-container" id="faqContainer">
+        <p style="text-align:center; color:var(--text-secondary);">Loading questions...</p>
+    </main>
+
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                <h2 style="color:var(--accent-cyan);">Manage FAQs</h2>
+                <button onclick="document.getElementById('adminModal').classList.remove('active')" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+            </div>
+            
+            <form id="adminForm" class="admin-form" onsubmit="saveFaq(event)" style="background:rgba(0,0,0,0.2); padding:1.5rem; border-radius:8px; margin-bottom:2rem;">
+                <input type="hidden" id="faqId">
+                <div style="display:flex; gap:1rem;">
+                    <div style="flex:3;">
+                        <label style="color:var(--text-secondary);">Question</label>
+                        <input type="text" id="faqQuestion" required placeholder="e.g. How long does a website take?">
+                    </div>
+                    <div style="flex:1;">
+                        <label style="color:var(--text-secondary);">Order</label>
+                        <input type="number" id="faqOrder" required placeholder="1">
+                    </div>
+                </div>
+                <label style="color:var(--text-secondary);">Answer</label>
+                <textarea id="faqAnswer" rows="4" required placeholder="Your detailed answer here..."></textarea>
+                
+                <button type="submit" class="btn-primary" id="saveBtn">Save FAQ</button>
+                <button type="button" class="btn-admin" style="display:inline-block;" onclick="document.getElementById('adminForm').reset(); document.getElementById('faqId').value='';">Clear</button>
+            </form>
+
+            <h3 style="margin-bottom: 1rem; color: white;">Existing FAQs</h3>
+            <div id="adminFaqList"></div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhFr5Iyf7ta7kYAsFyvh6GKhv3fVWkp9E",
+            authDomain: "chat-bot-f4f63.firebaseapp.com",
+            databaseURL: "https://chat-bot-f4f63-default-rtdb.firebaseio.com",
+            projectId: "chat-bot-f4f63"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        let allFaqs = [];
+
+        // Fallback random default FAQs if DB is empty
+        const defaultFaqs = [
+            { question: "How long does it take to build a website?", answer: "Standard templates take 2-4 days. Fully custom websites usually take between 2 to 4 weeks depending on the complexity of the features and revisions required." },
+            { question: "How does the payment process work?", answer: "You place an order for free to lock in your project. We then design and develop the site. Once it's completed and you approve the preview, you pay securely via UPI to unlock the download files." },
+            { question: "Do you provide hosting and domain names?", answer: "We deliver the fully completed website files (ZIP format). You are free to host it on any provider you choose. If requested, we can guide you through the hosting process." },
+            { question: "Can I request changes after seeing the preview?", answer: "Yes! We want you to be 100% satisfied. Minor revisions are included before you make your final payment." }
+        ];
+
+        // Auth Check
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                db.ref('admins/' + user.uid).once('value').then((snap) => {
+                    if (snap.exists()) document.getElementById('adminBtn').style.display = 'inline-block';
+                });
+            }
+        });
+
+        // Load FAQs
+        db.ref('faq/items').on('value', (snapshot) => {
+            allFaqs = [];
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                for (let key in data) { allFaqs.push({ id: key, ...data[key] }); }
+                allFaqs.sort((a, b) => (a.order || 0) - (b.order || 0));
+            }
+            renderFaqs();
+            if (document.getElementById('adminModal').classList.contains('active')) renderAdminList();
+        });
+
+        function renderFaqs() {
+            const container = document.getElementById('faqContainer');
+            container.innerHTML = '';
+            
+            // Use defaults if db is empty
+            const displayList = allFaqs.length > 0 ? allFaqs : defaultFaqs;
+
+            displayList.forEach((faq, index) => {
+                const item = document.createElement('div');
+                item.className = 'faq-item';
+                item.innerHTML = `
+                    <div class="faq-question">${faq.question}</div>
+                    <div class="faq-answer"><p>${faq.answer}</p></div>
+                `;
+                // Add click toggle logic
+                item.querySelector('.faq-question').addEventListener('click', () => {
+                    item.classList.toggle('active');
+                });
+                container.appendChild(item);
+            });
+        }
+
+        // Admin Functions
+        function renderAdminList() {
+            const list = document.getElementById('adminFaqList');
+            list.innerHTML = '';
+            allFaqs.forEach(faq => {
+                list.innerHTML += `
+                    <div class="admin-list-item">
+                        <span style="color:var(--accent-cyan); font-weight:600;">[${faq.order}] ${faq.question}</span>
+                        <div>
+                            <button onclick="editFaq('${faq.id}')" style="background:none; border:none; color:var(--text-primary); cursor:pointer; margin-right:10px;">Edit</button>
+                            <button onclick="deleteFaq('${faq.id}')" style="background:none; border:none; color:#fca5a5; cursor:pointer;">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        async function saveFaq(e) {
+            e.preventDefault();
+            const id = document.getElementById('faqId').value;
+            const data = {
+                question: document.getElementById('faqQuestion').value.trim(),
+                order: parseInt(document.getElementById('faqOrder').value) || 0,
+                answer: document.getElementById('faqAnswer').value.trim()
+            };
+
+            const btn = document.getElementById('saveBtn'); btn.textContent = 'Saving...'; btn.disabled = true;
+            try {
+                if (id) await db.ref('faq/items/' + id).update(data);
+                else await db.ref('faq/items').push(data);
+                document.getElementById('adminForm').reset();
+                document.getElementById('faqId').value = '';
+            } catch (err) { alert(err.message); }
+            finally { btn.textContent = 'Save FAQ'; btn.disabled = false; }
+        }
+
+        function editFaq(id) {
+            const faq = allFaqs.find(f => f.id === id);
+            if (!faq) return;
+            document.getElementById('faqId').value = faq.id;
+            document.getElementById('faqQuestion').value = faq.question;
+            document.getElementById('faqOrder').value = faq.order;
+            document.getElementById('faqAnswer').value = faq.answer;
+        }
+
+        async function deleteFaq(id) {
+            if(confirm("Delete this FAQ?")) {
+                await db.ref('faq/items/' + id).remove();
+            }
+        }
+    </script>
+</body>
+</html>
