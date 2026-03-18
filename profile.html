@@ -188,7 +188,7 @@
                     </div>
                     <div class="form-group">
                         <label>Member Since</label>
-                        <input type="text" id="dispJoinDate" value="Loading..." readonly style="opacity:0.8;">
+                        <input type="text" id="createdAt" value="Loading..." readonly style="opacity:0.8;">
                     </div>
                     <div class="form-group full-width">
                         <label>Total Orders Placed</label>
@@ -420,7 +420,7 @@
                 // Populate Basic UI
                 document.getElementById('sidebarEmail').textContent = user.email;
                 document.getElementById('dispUid').textContent = user.uid;
-                document.getElementById('dispJoinDate').textContent = new Date(user.metadata.creationTime).toLocaleDateString('en-IN');
+                document.getElementById('createdAt').textContent = new Date(user.metadata.creationTime).toLocaleDateString('en-IN');
                 document.getElementById('avatarInitials').textContent = user.email.charAt(0).toUpperCase();
                 
                 checkAdminStatus(user.uid);
