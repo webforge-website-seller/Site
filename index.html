@@ -1891,12 +1891,88 @@
     </script>
     // chat bot
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+<style>
+	:root {
+		/* Base variables */
+		--chat--color-primary: #8a2be2;
+		--chat--border-radius: 20px;
+	}
+
+	/* 1. Main Chat Window - Dark Translucent Glass */
+	.chat-window {
+		background: rgba(15, 23, 42, 0.6) !important; /* Dark, see-through background */
+		backdrop-filter: blur(16px) !important; /* Frosted glass blur effect */
+		-webkit-backdrop-filter: blur(16px) !important; /* For Safari compatibility */
+		border: 1px solid rgba(255, 255, 255, 0.1) !important; /* Subtle border */
+		box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important; /* Floating shadow */
+	}
+
+	/* 2. Header - Translucent Blue to Purple Gradient */
+	.chat-window-header {
+		background: linear-gradient(135deg, rgba(29, 78, 216, 0.8), rgba(138, 43, 226, 0.8)) !important;
+		backdrop-filter: blur(10px) !important;
+		-webkit-backdrop-filter: blur(10px) !important;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+		color: #ffffff !important;
+	}
+
+	/* 3. AI Bot Messages - Light Translucent Glass */
+	.chat-message.bot .chat-message-bubble,
+	.chat-message-bubble[data-owner="bot"] {
+		background: rgba(255, 255, 255, 0.1) !important;
+		backdrop-filter: blur(10px) !important;
+		-webkit-backdrop-filter: blur(10px) !important;
+		border: 1px solid rgba(255, 255, 255, 0.05) !important;
+		color: #ffffff !important; /* White text for dark background */
+	}
+
+	/* 4. User Messages - Solid Vibrant Gradient */
+	.chat-message.user .chat-message-bubble,
+	.chat-message-bubble[data-owner="user"] {
+		background: linear-gradient(135deg, #1d4ed8, #8a2be2) !important;
+		color: #ffffff !important;
+		border: none !important;
+		box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3) !important;
+	}
+
+	/* 5. Input Area Styling */
+	.chat-input-container {
+		background: rgba(0, 0, 0, 0.3) !important;
+		border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+	}
+	
+	.chat-input {
+		color: #ffffff !important; /* Makes typing text white */
+	}
+	
+	.chat-input::placeholder {
+		color: rgba(255, 255, 255, 0.6) !important;
+	}
+</style>
+
 <script type="module">
 	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
 	createChat({
-		webhookUrl: 'https://codiv.app.n8n.cloud/webhook/d8360c81-c215-49d8-8842-71af33816f2e/chat'
+		webhookUrl: 'https://codiv.app.n8n.cloud/webhook/d8360c81-c215-49d8-8842-71af33816f2e/chat',
+		initialMessages: [
+			'Hi there 👋🏻',
+			'Welcome to codiv',
+			'How can I help you today'
+		],
+		i18n: {
+			en: {
+				title: "Codiv AI Assistant",
+				subtitle: "We help 24/7",
+			}
+		},
+		theme: {
+			/* Force dark mode so the built-in text colors play nicely with our dark glass */
+			mode: 'dark', 
+		}
 	});
 </script>
+
 </body>
 </html>
