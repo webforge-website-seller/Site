@@ -1892,87 +1892,250 @@
     // chat bot
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 
+<div id="ai-bot-label">ai bot</div>
+
 <style>
-	:root {
-		/* Base variables */
-		--chat--color-primary: #8a2be2;
-		--chat--border-radius: 20px;
-	}
+  /* Label */
+  #ai-bot-label {
+    position: fixed;
+    bottom: 15px;
+    right: 24px;
+    background: #ffffff;
+    color: #0057FF;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    z-index: 999999;
+    pointer-events: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
 
-	/* 1. Main Chat Window - Dark Translucent Glass */
-	.chat-window {
-		background: rgba(15, 23, 42, 0.6) !important; /* Dark, see-through background */
-		backdrop-filter: blur(16px) !important; /* Frosted glass blur effect */
-		-webkit-backdrop-filter: blur(16px) !important; /* For Safari compatibility */
-		border: 1px solid rgba(255, 255, 255, 0.1) !important; /* Subtle border */
-		box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important; /* Floating shadow */
-	}
+  /* CSS Variables */
+  :root {
+    --chat--color--primary: #0057FF;
+    --chat--color--primary-shade-50: #004BE6;
+    --chat--color--secondary: #00C2FF;
+    --chat--color--light: #F4F6F8;
+    --chat--color--dark: #222222;
+    --chat--message--border-radius: 20px;
+  }
 
-	/* 2. Header - Translucent Blue to Purple Gradient */
-	.chat-window-header {
-		background: linear-gradient(135deg, rgba(29, 78, 216, 0.8), rgba(138, 43, 226, 0.8)) !important;
-		backdrop-filter: blur(10px) !important;
-		-webkit-backdrop-filter: blur(10px) !important;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-		color: #ffffff !important;
-	}
+  /* === LAUNCHER BUTTON === */
+  [class*="chat-toggle"],
+  .n8n-chat-toggle,
+  button.n8n-chat-toggle {
+    background: linear-gradient(135deg, #0057FF 0%, #00C2FF 100%) !important;
+    box-shadow: 0 6px 24px rgba(0, 87, 255, 0.45) !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 58px !important;
+    height: 58px !important;
+    transform: translateY(-25px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    transition: box-shadow 0.3s ease, transform 0.2s ease !important;
+  }
 
-	/* 3. AI Bot Messages - Light Translucent Glass */
-	.chat-message.bot .chat-message-bubble,
-	.chat-message-bubble[data-owner="bot"] {
-		background: rgba(255, 255, 255, 0.1) !important;
-		backdrop-filter: blur(10px) !important;
-		-webkit-backdrop-filter: blur(10px) !important;
-		border: 1px solid rgba(255, 255, 255, 0.05) !important;
-		color: #ffffff !important; /* White text for dark background */
-	}
+  [class*="chat-toggle"]:hover {
+    box-shadow: 0 8px 30px rgba(0, 87, 255, 0.6) !important;
+    transform: translateY(-27px) scale(1.05) !important;
+  }
 
-	/* 4. User Messages - Solid Vibrant Gradient */
-	.chat-message.user .chat-message-bubble,
-	.chat-message-bubble[data-owner="user"] {
-		background: linear-gradient(135deg, #1d4ed8, #8a2be2) !important;
-		color: #ffffff !important;
-		border: none !important;
-		box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3) !important;
-	}
+  /* === CHAT WINDOW === */
+  [class*="chat-window"],
+  .n8n-chat-window {
+    background:  !important;
+    border: none !important;
+    border-radius: 20px !important;
+    box-shadow: 0 16px 60px rgba(0, 0, 0, 0.18) !important;
+    overflow: hidden !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  }
 
-	/* 5. Input Area Styling */
-	.chat-input-container {
-		background: rgba(0, 0, 0, 0.3) !important;
-		border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-	}
-	
-	.chat-input {
-		color: #ffffff !important; /* Makes typing text white */
-	}
-	
-	.chat-input::placeholder {
-		color: rgba(255, 255, 255, 0.6) !important;
-	}
+  /* === HEADER — Tidio-style gradient with wave === */
+  [class*="chat-header"],
+  .n8n-chat-header {
+    background: linear-gradient(135deg, #0057FF 0%, #00C2FF 100%) !important;
+    border-bottom: none !important;
+    color: #ffffff !important;
+    padding: 20px 20px 40px 20px !important;
+    border-bottom-left-radius: 30px !important;
+    border-bottom-right-radius: 30px !important;
+    box-shadow: 0 6px 20px rgba(0, 87, 255, 0.25) !important;
+    position: relative !important;
+  }
+
+  /* Wave effect using pseudo-element */
+  [class*="chat-header"]::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: #ffffff;
+    border-top-left-radius: 50% 20px;
+    border-top-right-radius: 50% 20px;
+  }
+
+  [class*="chat-header"] * {
+    color: #ffffff !important;
+  }
+
+  /* "We are online" status dot */
+  [class*="chat-header"] [class*="subtitle"],
+  [class*="chat-header"] [class*="status"] {
+    font-size: 13px !important;
+    opacity: 0.9 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+
+  [class*="chat-header"] [class*="subtitle"]::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #4DFFA0;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #4DFFA0;
+  }
+
+  /* === MESSAGES AREA === */
+  [class*="chat-messages"],
+  [class*="messages-list"] {
+    background: #ffffff !important;
+    padding: 20px 16px !important;
+  }
+
+  /* Bot bubbles */
+  .chat-message.bot .chat-message-bubble,
+  [data-owner="bot"],
+  [class*="chat-message--from-bot"] [class*="bubble"],
+  [class*="chat-message--bot"] {
+    background: #F1F5F9 !important;
+    color: #2d2d2d !important;
+    border: none !important;
+    border-radius: 20px 20px 20px 4px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    padding: 12px 16px !important;
+  }
+
+  /* User bubbles */
+  .chat-message.user .chat-message-bubble,
+  [data-owner="user"],
+  [class*="chat-message--from-user"] [class*="bubble"],
+  [class*="chat-message--user"] {
+    background: linear-gradient(135deg, #0057FF 0%, #00C2FF 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 20px 20px 4px 20px !important;
+    box-shadow: 0 4px 14px rgba(0, 87, 255, 0.25) !important;
+    font-size: 14px !important;
+    padding: 12px 16px !important;
+  }
+
+  /* === INPUT AREA === */
+  [class*="chat-input"],
+  [class*="input-area"],
+  [class*="chat-footer"] {
+    background: #ffffff !important;
+    border-top: 1px solid #eef1f5 !important;
+    padding: 12px 16px !important;
+  }
+
+  [class*="chat-input"] input,
+  [class*="chat-input"] textarea {
+    background: #F7F9FC !important;
+    border: 1px solid #e8ecf0 !important;
+    border-radius: 24px !important;
+    color: #333 !important;
+    padding: 10px 18px !important;
+    font-size: 14px !important;
+    outline: none !important;
+    transition: border-color 0.2s ease !important;
+  }
+
+  [class*="chat-input"] input:focus,
+  [class*="chat-input"] textarea:focus {
+    border-color: #0057FF !important;
+    box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.08) !important;
+  }
+
+  /* === SEND BUTTON === */
+  button[type="submit"],
+  [class*="send-button"],
+  [class*="chat-input"] button {
+    background: linear-gradient(135deg, #0057FF 0%, #00C2FF 100%) !important;
+    border-radius: 50% !important;
+    color: white !important;
+    border: none !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    box-shadow: 0 4px 14px rgba(0, 87, 255, 0.35) !important;
+    transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  button[type="submit"]:hover {
+    box-shadow: 0 6px 20px rgba(0, 87, 255, 0.5) !important;
+    transform: scale(1.08) !important;
+  }
+
+  /* === WELCOME SCREEN (initial messages) === */
+  [class*="chat-welcome"],
+  [class*="welcome-screen"] {
+    background: #ffffff !important;
+    padding: 24px 20px !important;
+  }
+
+  /* === GENERAL TEXT === */
+  [class*="chat-layout"] {
+    color: #333333 !important;
+  }
+
+  /* Scrollbar styling */
+  [class*="chat-messages"]::-webkit-scrollbar {
+    width: 4px;
+  }
+  [class*="chat-messages"]::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  [class*="chat-messages"]::-webkit-scrollbar-thumb {
+    background: #00008B;
+    border-radius: 4px;
+  }
 </style>
 
 <script type="module">
-	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+  import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-	createChat({
-		webhookUrl: 'https://codiv.app.n8n.cloud/webhook/d8360c81-c215-49d8-8842-71af33816f2e/chat',
-		initialMessages: [
-			'Hi there 👋🏻',
-			'Welcome to codiv',
-			'How can I help you today'
-		],
-		i18n: {
-			en: {
-				title: "Codiv AI Assistant",
-				subtitle: "We help 24/7",
-			}
-		},
-		theme: {
-			/* Force dark mode so the built-in text colors play nicely with our dark glass */
-			mode: 'dark', 
-		}
-	});
+  createChat({
+    webhookUrl: 'https://codiv.app.n8n.cloud/webhook/d8360c81-c215-49d8-8842-71af33816f2e/chat',
+    initialMessages: [
+      'Hi 👋 I\'m a bot working for Codiv 🤖',
+      'Choose one of the options below or write a message to reach our staff.'
+    ],
+    i18n: {
+      en: {
+        title: "Chat with",
+        subtitle: "⚡ We are online!",
+      }
+    },
+    theme: {
+      mode: 'dark',
+    }
+  });
 </script>
-
 </body>
 </html>
