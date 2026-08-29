@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /admin.html
-Disallow: /Site-main/admin.html
-
-Sitemap: https://codiv.codiv.workers.dev/sitemap.xml
