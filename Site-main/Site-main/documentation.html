@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codiv — Documentation</title>
+    <meta name="description" content="Technical documentation for the Codiv platform.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Favicon & Search Engine Icons -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#08080a">
+    <style>
+        /* ── DOCS-SPECIFIC ── */
+        .docs-hero {
+            padding: calc(var(--nav-height) + var(--space-5xl)) 0 var(--space-4xl);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .docs-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: var(--space-4xl);
+            align-items: start;
+            padding: var(--space-4xl) 0;
+        }
+
+        .docs-sidebar {
+            position: sticky;
+            top: calc(var(--nav-height) + var(--space-xl));
+            border-right: 1px solid var(--border);
+            padding-right: var(--space-xl);
+        }
+        .docs-sidebar .sidebar-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: var(--space-lg);
+        }
+        .docs-nav { display: flex; flex-direction: column; gap: 0.25rem; }
+        .docs-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.75rem;
+            border-left: 1px solid var(--border);
+            transition: all var(--duration-fast);
+            display: flex;
+            gap: var(--space-sm);
+        }
+        .docs-nav a .idx {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .docs-nav a:hover, .docs-nav a.active {
+            color: var(--text-primary);
+            border-left-color: var(--accent);
+        }
+
+        .docs-content { min-width: 0; }
+        .doc-section {
+            margin-bottom: var(--space-5xl);
+            scroll-margin-top: calc(var(--nav-height) + var(--space-xl));
+            padding-bottom: var(--space-4xl);
+            border-bottom: 1px solid var(--border);
+        }
+        .doc-section:last-child { border-bottom: none; }
+        .doc-section h2 {
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: var(--space-lg);
+        }
+        .doc-section .doc-body { color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem; }
+        .doc-section .doc-body p { margin-bottom: var(--space-md); }
+        .doc-section .doc-body pre {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: var(--space-lg);
+            overflow-x: auto;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            margin: var(--space-lg) 0;
+        }
+        .doc-section .doc-body code {
+            font-family: var(--font-mono);
+            color: var(--accent);
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 900px) {
+            .docs-layout { grid-template-columns: 1fr; gap: var(--space-2xl); }
+            .docs-sidebar { position: static; border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: var(--space-lg); }
+            .docs-nav { flex-direction: row; flex-wrap: wrap; }
+            .docs-hero { padding: calc(var(--nav-height) + var(--space-4xl)) 0 var(--space-3xl); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"><span class="cursor-text" id="cursorText"></span></div>
+
+    <nav class="nav-editorial" id="mainNav">
+        <div class="nav-inner">
+            <a class="nav-logo" href="index.html">CODIV</a>
+            <ul class="nav-links">
+                <li><a class="nav-link" href="index.html">Home</a></li>
+                <li><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+                <li><a class="nav-link" href="faq.html">FAQ</a></li>
+                <li><a class="nav-link active" href="documentation.html">Docs</a></li>
+            </ul>
+            <div class="nav-auth">
+                <button id="adminBtn" class="btn btn-warning btn-sm" style="display:none;" onclick="document.getElementById('adminModal').classList.add('active'); renderAdminList();">Manage Docs</button>
+                <a href="index.html" class="btn btn-outline btn-sm">Sign In</a>
+            </div>
+            <button class="hamburger-noir" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu-noir" id="mobileMenu">
+        <a class="mobile-nav-item" href="index.html"><span class="mobile-nav-num">01</span> Home</a>
+        <a class="mobile-nav-item" href="portfolio.html"><span class="mobile-nav-num">02</span> Portfolio</a>
+        <a class="mobile-nav-item" href="faq.html"><span class="mobile-nav-num">03</span> FAQ</a>
+        <a class="mobile-nav-item" href="documentation.html"><span class="mobile-nav-num">04</span> Docs</a>
+        <div class="mobile-menu-auth">
+            <a href="index.html" class="btn btn-primary btn-block" style="text-align:center;">Sign In</a>
+        </div>
+    </div>
+
+    <header class="docs-hero">
+        <div class="container">
+            <div class="section-num reveal">01 / Reference</div>
+            <h1 class="t-display reveal reveal-delay-1">Technical<br>Documentation</h1>
+            <p class="t-subtitle reveal reveal-delay-2" style="margin-top:var(--space-xl);max-width:560px;">Guides, references, and resources for working with the Codiv platform.</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="docs-layout">
+            <aside class="docs-sidebar">
+                <div class="sidebar-label">Contents</div>
+                <div class="docs-nav" id="docsNav">
+                    <p style="color:var(--text-muted);font-size:0.9rem;">Loading...</p>
+                </div>
+            </aside>
+            <main class="docs-content" id="docsContent">
+                <p style="color:var(--text-muted);">Loading documentation...</p>
+            </main>
+        </div>
+    </div>
+
+    <footer class="footer-noir">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;margin-bottom:var(--space-md);">CODIV</div>
+                    <p class="t-body" style="font-size:0.88rem;max-width:300px;">Premium web development and embedded system solutions. Built for growth.</p>
+                </div>
+                <div>
+                    <div class="footer-heading">Navigation</div>
+                    <a class="footer-link" href="index.html">Home</a>
+                    <a class="footer-link" href="portfolio.html">Portfolio</a>
+                    <a class="footer-link" href="faq.html">FAQ</a>
+                    <a class="footer-link" href="documentation.html">Docs</a>
+                </div>
+                <div>
+                    <div class="footer-heading">Support</div>
+                    <a class="footer-link" href="mailto:nivaaroma@gmail.com">Email Support</a>
+                    <a class="footer-link" href="faq.html">FAQ</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-copy">© 2024 CODIV. All rights reserved.</span>
+                <span class="footer-copy">01 / End</span>
+            </div>
+        </div>
+    </footer>
+
+    <div id="adminModal" class="modal-noir">
+        <div class="modal-box" style="max-width:800px;">
+            <div class="modal-header">
+                <h2 class="t-title" style="font-size:1.3rem;">Manage Documentation</h2>
+                <button class="modal-close" onclick="document.getElementById('adminModal').classList.remove('active')">✕</button>
+            </div>
+
+            <form id="adminForm" onsubmit="saveDoc(event)" style="border:1px solid var(--border);padding:var(--space-xl);margin-bottom:var(--space-2xl);">
+                <input type="hidden" id="docId">
+                <div style="display:flex;gap:var(--space-lg);flex-wrap:wrap;">
+                    <div class="form-group" style="flex:3;min-width:220px;">
+                        <label class="form-label">Section Title</label>
+                        <input type="text" id="docTitle" class="form-input-boxed" required placeholder="e.g. Getting Started">
+                    </div>
+                    <div class="form-group" style="flex:1;min-width:100px;">
+                        <label class="form-label">Order (Number)</label>
+                        <input type="number" id="docOrder" class="form-input-boxed" required placeholder="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Content (HTML supported)</label>
+                    <textarea id="docBody" class="form-input-boxed" rows="6" required placeholder="<p>Write your content here...</p>"></textarea>
+                </div>
+                <div style="display:flex;gap:var(--space-sm);">
+                    <button type="submit" class="btn btn-primary" id="saveBtn">Save Section</button>
+                    <button type="button" class="btn btn-outline" onclick="document.getElementById('adminForm').reset(); document.getElementById('docId').value='';">Clear</button>
+                </div>
+            </form>
+
+            <div class="t-label" style="margin-bottom:var(--space-md);">Existing Sections</div>
+            <div id="adminDocList"></div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhFr5Iyf7ta7kYAsFyvh6GKhv3fVWkp9E",
+            authDomain: "chat-bot-f4f63.firebaseapp.com",
+            databaseURL: "https://chat-bot-f4f63-default-rtdb.firebaseio.com",
+            projectId: "chat-bot-f4f63"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        let allDocs = [];
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                db.ref('admins/' + user.uid).once('value').then((snap) => {
+                    if (snap.exists()) document.getElementById('adminBtn').style.display = 'inline-flex';
+                });
+            }
+        });
+
+        db.ref('documentation/items').on('value', (snapshot) => {
+            allDocs = [];
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                for (let key in data) { allDocs.push({ id: key, ...data[key] }); }
+                allDocs.sort((a, b) => (a.order || 0) - (b.order || 0));
+            }
+            renderDocs();
+            if (document.getElementById('adminModal').classList.contains('active')) renderAdminList();
+        });
+
+        function renderDocs() {
+            const nav = document.getElementById('docsNav');
+            const content = document.getElementById('docsContent');
+            nav.innerHTML = ''; content.innerHTML = '';
+
+            if (allDocs.length === 0) {
+                content.innerHTML = '<p style="color:var(--text-muted);">Documentation is currently empty.</p>';
+                return;
+            }
+
+            allDocs.forEach((doc, index) => {
+                const safeId = doc.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                nav.innerHTML += `<a href="#${safeId}"><span class="idx">${String(index + 1).padStart(2, '0')}</span> ${doc.title}</a>`;
+                content.innerHTML += `
+                    <section class="doc-section" id="${safeId}">
+                        <div class="t-label" style="margin-bottom:var(--space-md);">${String(index + 1).padStart(2, '0')} / Section</div>
+                        <h2>${doc.title}</h2>
+                        <div class="doc-body">${doc.content}</div>
+                    </section>`;
+            });
+        }
+
+        function renderAdminList() {
+            const list = document.getElementById('adminDocList');
+            list.innerHTML = '';
+            if (allDocs.length === 0) {
+                list.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;">No sections saved yet.</p>';
+                return;
+            }
+            allDocs.forEach(doc => {
+                list.innerHTML += `
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--space-md) 0;border-bottom:1px solid var(--border);gap:var(--space-sm);">
+                        <span style="color:var(--text-primary);font-size:0.9rem;"><span class="text-muted">[${doc.order}]</span> ${doc.title}</span>
+                        <div style="display:flex;gap:var(--space-sm);flex-shrink:0;">
+                            <button onclick="editDoc('${doc.id}')" class="btn btn-ghost btn-sm" style="color:var(--text-secondary);">Edit</button>
+                            <button onclick="deleteDoc('${doc.id}')" class="btn btn-danger btn-sm">Delete</button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        async function saveDoc(e) {
+            e.preventDefault();
+            const id = document.getElementById('docId').value;
+            const data = {
+                title: document.getElementById('docTitle').value.trim(),
+                order: parseInt(document.getElementById('docOrder').value) || 0,
+                content: document.getElementById('docBody').value.trim()
+            };
+            const btn = document.getElementById('saveBtn'); btn.textContent = 'Saving...'; btn.disabled = true;
+            try {
+                if (id) await db.ref('documentation/items/' + id).update(data);
+                else await db.ref('documentation/items').push(data);
+                document.getElementById('adminForm').reset();
+                document.getElementById('docId').value = '';
+            } catch (err) { alert(err.message); }
+            finally { btn.textContent = 'Save Section'; btn.disabled = false; }
+        }
+
+        function editDoc(id) {
+            const doc = allDocs.find(d => d.id === id);
+            if (!doc) return;
+            document.getElementById('docId').value = doc.id;
+            document.getElementById('docTitle').value = doc.title;
+            document.getElementById('docOrder').value = doc.order;
+            document.getElementById('docBody').value = doc.content;
+        }
+
+        async function deleteDoc(id) {
+            if (confirm("Delete this documentation section?")) {
+                await db.ref('documentation/items/' + id).remove();
+            }
+        }
+
+        /* ── SHARED UI JS ── */
+        function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('hamburger').classList.toggle('open'); }
+        function closeMobileMenu() { document.getElementById('mobileMenu').classList.remove('open'); document.getElementById('hamburger').classList.remove('open'); }
+
+        document.addEventListener('click', function (e) {
+            const nav = document.querySelector('.nav-editorial');
+            if (nav && !nav.contains(e.target) && !document.getElementById('mobileMenu').contains(e.target) && document.getElementById('mobileMenu').classList.contains('open')) closeMobileMenu();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('adminModal').addEventListener('click', function (e) { if (e.target === this) this.classList.remove('active'); });
+
+            window.addEventListener('scroll', () => {
+                const nav = document.getElementById('mainNav');
+                if (window.scrollY > 50) nav.classList.add('nav-scrolled');
+                else nav.classList.remove('nav-scrolled');
+            });
+
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('revealed'); });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+            if (window.matchMedia('(pointer: fine)').matches) {
+                const dot = document.getElementById('cursorDot');
+                const ring = document.getElementById('cursorRing');
+                let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+                let ringX = mouseX, ringY = mouseY;
+
+                window.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX; mouseY = e.clientY;
+                    if (dot) { dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px'; }
+                });
+
+                window.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
+                window.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
+
+                function updateCursorRing() {
+                    ringX += (mouseX - ringX) * 0.18;
+                    ringY += (mouseY - ringY) * 0.18;
+                    if (ring) { ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px'; }
+                    requestAnimationFrame(updateCursorRing);
+                }
+                updateCursorRing();
+
+                document.querySelectorAll('a, button, [onclick]').forEach(el => {
+                    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+                });
+            }
+        });
+    </script>
+</body>
+</html>
